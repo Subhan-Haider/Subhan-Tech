@@ -1,12 +1,21 @@
 "use client";
 
-import { CRUDTable } from "@/components/admin/CRUDTable";
+import { CRUDTable, Item } from "@/components/admin/CRUDTable";
 import { useState } from "react";
 import { Ticket, Percent, Zap, Shield } from "lucide-react";
 import { motion } from "framer-motion";
 
+interface Coupon {
+    name: string;
+    code: string;
+    discount: string;
+    description: string;
+    category: string;
+    [key: string]: string | number | boolean | undefined | object;
+}
+
 export default function CouponsManager() {
-    const [coupons, setCoupons] = useState([
+    const [coupons, setCoupons] = useState<Coupon[]>([
         { name: "Early Access", code: "NEURAL2026", discount: "100% OFF", description: "Full access to all extensions for beta testers.", category: "Premium" },
         { name: "Summer Launch", code: "SUMMER25", discount: "50% OFF", description: "Seasonal discount for software licenses.", category: "General" },
         { name: "Developer Perk", code: "DEV_MODE", discount: "Free Lifetime", description: "Complimentary access for open source contributors.", category: "Extension" },
@@ -48,9 +57,9 @@ export default function CouponsManager() {
             <CRUDTable
                 title="Coupon Management"
                 subtitle="Generate and manage discount codes for your neural assets."
-                items={coupons}
+                items={coupons as unknown as Item[]}
                 typeLabel="Coupon"
-                onAdd={(item: any) => setCoupons([...coupons, item])}
+                onAdd={(item) => setCoupons([...coupons, item as unknown as Coupon])}
                 onDelete={(i) => setCoupons(coupons.filter((_, idx) => idx !== i))}
             />
         </div>

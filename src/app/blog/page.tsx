@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import { Calendar, User, ArrowRight, Tag } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 
 const blogPosts = [

@@ -1,6 +1,6 @@
 "use client";
 
-import { CRUDTable } from "@/components/admin/CRUDTable";
+import { CRUDTable, Item } from "@/components/admin/CRUDTable";
 import { SOFTWARE } from "@/data/config";
 
 interface SoftwareItem {
@@ -8,17 +8,17 @@ interface SoftwareItem {
     description?: string;
     url?: string;
     category?: string;
-    [key: string]: string | number | boolean | undefined;
+    [key: string]: string | number | boolean | undefined | object;
 }
 
 export default function AdminSoftware() {
-    const handleAdd = (newItem: any) => {
+    const handleAdd = (newItem: SoftwareItem) => {
         console.log("Adding new software:", newItem);
         // In production, this would save to a database
         alert(`Added: ${newItem.name}`);
     };
 
-    const handleEdit = (index: number, editedItem: any) => {
+    const handleEdit = (index: number, editedItem: SoftwareItem) => {
         console.log("Editing software at index", index, editedItem);
         alert(`Updated: ${editedItem.name}`);
     };
@@ -32,7 +32,7 @@ export default function AdminSoftware() {
         <CRUDTable
             title="Software Assets"
             subtitle="Manage your standalone applications and system tools."
-            items={SOFTWARE as any[]}
+            items={SOFTWARE as SoftwareItem[]}
             typeLabel="Software"
             onAdd={handleAdd}
             onEdit={handleEdit}

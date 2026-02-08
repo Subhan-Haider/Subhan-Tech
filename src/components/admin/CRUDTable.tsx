@@ -8,12 +8,12 @@ import {
 import { useState } from "react";
 import { AddItemModal } from "./AddItemModal";
 
-interface Item {
+export interface Item {
     name: string;
     description?: string;
     category?: string;
     url?: string;
-    [key: string]: any;
+    [key: string]: string | number | boolean | undefined | object;
 }
 
 interface CRUDTableProps {
@@ -21,8 +21,8 @@ interface CRUDTableProps {
     subtitle: string;
     items: Item[];
     typeLabel: string;
-    onAdd?: (item: any) => void;
-    onEdit?: (index: number, item: any) => void;
+    onAdd?: (item: Item) => void;
+    onEdit?: (index: number, item: Item) => void;
     onDelete?: (index: number) => void;
     onView?: (item: Item) => void;
 }
@@ -40,14 +40,14 @@ export function CRUDTable({
     const [items, setItems] = useState<Item[]>(initialItems);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingIndex, setEditingIndex] = useState<number | null>(null);
-    const [editData, setEditData] = useState<any>({});
+    const [editData, setEditData] = useState<Partial<Item>>({});
 
     const filteredItems = items.filter(item =>
         item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         (item.category && item.category.toLowerCase().includes(searchTerm.toLowerCase()))
     );
 
-    const handleAdd = (newItem: any) => {
+    const handleAdd = (newItem: Item) => {
         const updatedItems = [...items, newItem];
         setItems(updatedItems);
         if (onAdd) onAdd(newItem);
@@ -68,9 +68,9 @@ export function CRUDTable({
 
     const saveEdit = (index: number) => {
         const updatedItems = [...items];
-        updatedItems[index] = editData;
+        updatedItems[index] = { ...updatedItems[index], ...editData };
         setItems(updatedItems);
-        if (onEdit) onEdit(index, editData);
+        if (onEdit) onEdit(index, updatedItems[index]);
         setEditingIndex(null);
     };
 
@@ -223,8 +223,8 @@ export function CRUDTable({
             <AddItemModal
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
-                onSubmit={handleAdd}
-                type={typeLabel.toLowerCase() as any}
+                onSubmit={(data) => handleAdd(data as unknown as Item)}
+                type={typeLabel.toLowerCase() as "software" | "extension" | "tool" | "website" | "coupon"}
             />
         </div>
     );

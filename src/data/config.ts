@@ -1,9 +1,9 @@
 import {
-    Chrome, Sidebar, Globe, Code2, Terminal, Cpu,
-    Layout, Boxes, Smartphone, Zap, Shield, Search,
-    Database, Cloud, Key, FileCode, Layers, Monitor,
-    MessageSquare, Share2, Coffee, Ghost, Activity,
-    Lock, Settings, Eye
+    Code2, Terminal, Cpu,
+    Boxes, Smartphone, Shield,
+    Cloud, Key, FileCode, Layers,
+    Ghost, Activity,
+    Lock, Database
 } from "lucide-react";
 
 export const SITE_CONFIG = {

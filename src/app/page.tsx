@@ -167,7 +167,7 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {WEBSITES.map((site, i) => (
+            {WEBSITES.map((site) => (
               <WebsiteCard key={site.name} {...site} />
             ))}
           </div>

@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Navbar } from "@/components/Navbar";
-import { Plus, ListFilter, ClipboardCheck, BarChart3, ArrowRight } from "lucide-react";
+import { Plus, ClipboardCheck, BarChart3, ArrowRight } from "lucide-react";
 import { useState } from "react";
 
 const mockSurveys = [
@@ -45,8 +45,8 @@ export default function SurveysPage() {
                                     key={tab}
                                     onClick={() => setActiveTab(tab.toLowerCase())}
                                     className={`w-full text-left px-4 py-2 rounded-lg text-sm transition-colors ${activeTab === tab.toLowerCase()
-                                            ? "bg-white/10 text-white"
-                                            : "text-muted-foreground hover:bg-white/5 hover:text-white"
+                                        ? "bg-white/10 text-white"
+                                        : "text-muted-foreground hover:bg-white/5 hover:text-white"
                                         }`}
                                 >
                                     {tab}

@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import {
     ArrowLeft, Users, Calendar, Download,
@@ -14,7 +13,32 @@ import {
 } from 'recharts';
 
 // Mock survey data
-const surveyData = {
+interface SurveyResponse {
+    rating?: number;
+    count: number;
+    option?: string;
+    color?: string;
+    score?: string;
+    percentage?: number;
+}
+
+interface SurveyQuestion {
+    id: number;
+    question: string;
+    type: string;
+    responses: SurveyResponse[];
+    npsScore?: number;
+}
+
+const surveyData: {
+    id: number;
+    title: string;
+    description: string;
+    totalResponses: number;
+    createdAt: string;
+    questions: SurveyQuestion[];
+    textResponses: { question: string; responses: string[] }[];
+} = {
     id: 1,
     title: "Extension UX Feedback v1",
     description: "Gather user feedback on the new extension interface",
@@ -144,8 +168,8 @@ export default function SurveyResults() {
                 <div className="mt-6 p-4 rounded-xl bg-blue-500/10 border border-blue-500/20">
                     <p className="text-sm text-blue-400 font-bold">
                         Average Rating: {(
-                            (surveyData.questions[0].responses as any[]).reduce((acc, r) => acc + r.rating * r.count, 0) /
-                            (surveyData.questions[0].responses as any[]).reduce((acc, r) => acc + r.count, 0)
+                            surveyData.questions[0].responses.reduce((acc, r) => acc + (r.rating || 0) * r.count, 0) /
+                            surveyData.questions[0].responses.reduce((acc, r) => acc + r.count, 0)
                         ).toFixed(1)} / 5.0
                     </p>
                 </div>
@@ -173,7 +197,7 @@ export default function SurveyResults() {
                                     dataKey="count"
                                     label
                                 >
-                                    {(surveyData.questions[1].responses as any[]).map((entry, index) => (
+                                    {surveyData.questions[1].responses.map((entry, index) => (
                                         <Cell key={`cell-${index}`} fill={entry.color} />
                                     ))}
                                 </Pie>
@@ -188,7 +212,7 @@ export default function SurveyResults() {
                         </ResponsiveContainer>
                     </div>
                     <div className="space-y-3">
-                        {(surveyData.questions[1].responses as any[]).map((item, i) => (
+                        {surveyData.questions[1].responses.map((item, i) => (
                             <div key={i} className="p-4 rounded-xl bg-white/5">
                                 <div className="flex items-center justify-between mb-2">
                                     <div className="flex items-center gap-2">
@@ -221,7 +245,7 @@ export default function SurveyResults() {
             >
                 <h2 className="text-2xl font-bold mb-6">{surveyData.questions[2].question}</h2>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-                    {(surveyData.questions[2].responses as any[]).map((item, i) => (
+                    {surveyData.questions[2].responses.map((item, i) => (
                         <div key={i} className="p-6 rounded-xl bg-white/5 text-center">
                             <p className="text-sm text-white/40 mb-2">{item.score}</p>
                             <p className="text-4xl font-bold mb-2">{item.count}</p>

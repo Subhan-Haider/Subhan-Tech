@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import { ExternalLink, Chrome, Sidebar, Globe } from "lucide-react";
-import { cn } from "@/lib/utils";
 
 interface ExtensionCardProps {
     name: string;
@@ -12,7 +11,7 @@ interface ExtensionCardProps {
     image?: string;
 }
 
-export function ExtensionCard({ name, description, url, platform, image }: ExtensionCardProps) {
+export function ExtensionCard({ name, description, url, platform }: ExtensionCardProps) {
     const getIcon = () => {
         switch (platform) {
             case "chrome": return <Chrome className="w-5 h-5" />;

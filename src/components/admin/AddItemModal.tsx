@@ -4,10 +4,20 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
 import { useState } from "react";
 
+interface FormData {
+    name: string;
+    description: string;
+    url: string;
+    category: string;
+    platform: string;
+    code: string;
+    discount: string;
+}
+
 interface AddItemModalProps {
     isOpen: boolean;
     onClose: () => void;
-    onSubmit: (data: any) => void;
+    onSubmit: (data: FormData) => void;
     type: "software" | "extension" | "tool" | "website" | "coupon";
 }
 

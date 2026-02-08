@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import {
     Search, Plus, Filter, Edit3, Trash2,
-    MoreVertical, ExternalLink
+    ExternalLink
 } from "lucide-react";
 import { useState } from "react";
 
@@ -12,7 +12,7 @@ interface Item {
     description?: string;
     category?: string;
     url: string;
-    [key: string]: any;
+    [key: string]: string | number | boolean | undefined | object;
 }
 
 interface ManagementTableProps {
