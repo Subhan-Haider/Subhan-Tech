@@ -1,11 +1,11 @@
 "use client";
 
-import { CRUDTable } from "@/components/admin/CRUDTable";
+import { CRUDTable, Item } from "@/components/admin/CRUDTable";
 import { WEBSITES } from "@/data/config";
 import { useState } from "react";
 
 export default function AdminWebsites() {
-    const [items, setItems] = useState(WEBSITES);
+    const [items, setItems] = useState<Item[]>(WEBSITES);
 
     return (
         <CRUDTable

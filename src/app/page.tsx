@@ -25,10 +25,10 @@ export default function Home() {
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5 }}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card border-white/5 mb-8"
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card mb-8"
         >
-          <Sparkles className="w-4 h-4 text-white/60" />
-          <span className="text-sm font-medium text-white/60 tracking-wide uppercase">Neural Engineering v1.0</span>
+          <Sparkles className="w-4 h-4 text-muted-foreground/60" />
+          <span className="text-sm font-medium text-muted-foreground/60 tracking-wide uppercase">Neural Engineering v1.0</span>
         </motion.div>
 
         <motion.h1
@@ -38,9 +38,9 @@ export default function Home() {
           className="text-6xl md:text-8xl font-bold mb-6 tracking-tight text-glow uppercase"
         >
           {SITE_CONFIG.name.split('').map((char, i) => (
-            <span key={i} className={i % 2 === 0 ? "text-white" : "text-white/20"}>{char}</span>
+            <span key={i} className={i % 2 === 0 ? "text-foreground" : "text-foreground/20"}>{char}</span>
           ))}
-          <span className="text-white/20">.TECH</span>
+          <span className="text-foreground/20">.TECH</span>
         </motion.h1>
 
         <motion.p
@@ -56,8 +56,8 @@ export default function Home() {
       {/* Software & Projects Section */}
       <section id="software" className="mb-32">
         <div className="flex items-center gap-4 mb-12">
-          <div className="p-2 rounded-lg bg-white/5 border border-white/10">
-            <Package className="w-6 h-6 text-white" />
+          <div className="p-2 rounded-lg bg-black/5 dark:bg-white/5 border border-border">
+            <Package className="w-6 h-6 text-foreground" />
           </div>
           <div>
             <h2 className="text-3xl font-bold text-glow">Software & Apps</h2>
@@ -77,10 +77,10 @@ export default function Home() {
               className="glass-card rounded-2xl p-6 border border-white/5 relative overflow-hidden group"
             >
               <div className="flex justify-between items-start mb-6">
-                <div className="p-3 rounded-xl bg-white/5 border border-white/10 group-hover:bg-white/10 transition-colors">
+                <div className="p-3 rounded-xl bg-black/5 dark:bg-white/5 border border-border group-hover:bg-primary/5 transition-colors">
                   <item.icon className="w-6 h-6" />
                 </div>
-                <span className="text-[10px] font-bold uppercase tracking-widest text-white/30 px-2 py-1 rounded bg-white/5">
+                <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/30 px-2 py-1 rounded bg-black/5 dark:bg-white/5 border border-border">
                   {item.category}
                 </span>
               </div>
@@ -144,8 +144,8 @@ export default function Home() {
               whileHover={{ scale: 1.02 }}
               className="p-4 glass-card rounded-xl border border-white/5 flex items-center gap-4 group"
             >
-              <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center group-hover:bg-primary/10 transition-colors">
-                <tool.icon className="w-5 h-5 text-muted-foreground group-hover:text-white" />
+              <div className="w-10 h-10 rounded-lg bg-black/5 dark:bg-white/5 border border-border flex items-center justify-center group-hover:bg-primary/10 transition-colors">
+                <tool.icon className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
               </div>
               <div>
                 <h4 className="font-bold text-sm tracking-tight">{tool.name}</h4>
@@ -160,7 +160,7 @@ export default function Home() {
       <section id="links" className="grid grid-cols-1 lg:grid-cols-3 gap-12">
         <div className="lg:col-span-2">
           <div className="flex items-center gap-4 mb-10">
-            <div className="p-2 rounded-lg bg-white/5 border border-white/10">
+            <div className="p-2 rounded-lg bg-black/5 dark:bg-white/5 border border-border">
               <LayoutGrid className="w-6 h-6" />
             </div>
             <h2 className="text-2xl font-bold text-glow">Websites & Links</h2>
@@ -182,12 +182,12 @@ export default function Home() {
                 <span>System Uptime</span>
                 <span>99.9%</span>
               </div>
-              <div className="h-1 bg-white/5 rounded-full overflow-hidden">
+              <div className="h-1 bg-black/5 dark:bg-white/5 rounded-full overflow-hidden">
                 <motion.div
                   initial={{ width: 0 }}
                   whileInView={{ width: "99.9%" }}
                   viewport={{ once: true }}
-                  className="h-full bg-white/40"
+                  className="h-full bg-foreground/40"
                 />
               </div>
             </div>
@@ -196,12 +196,12 @@ export default function Home() {
                 <span>Network Integrity</span>
                 <span>Stable</span>
               </div>
-              <div className="h-1 bg-white/5 rounded-full overflow-hidden">
+              <div className="h-1 bg-black/5 dark:bg-white/5 rounded-full overflow-hidden">
                 <motion.div
                   initial={{ width: 0 }}
                   whileInView={{ width: "85%" }}
                   viewport={{ once: true }}
-                  className="h-full bg-white/20"
+                  className="h-full bg-foreground/30"
                 />
               </div>
             </div>
@@ -210,12 +210,12 @@ export default function Home() {
                 <span>Memory Efficiency</span>
                 <span>94%</span>
               </div>
-              <div className="h-1 bg-white/5 rounded-full overflow-hidden">
+              <div className="h-1 bg-black/5 dark:bg-white/5 rounded-full overflow-hidden">
                 <motion.div
                   initial={{ width: 0 }}
                   whileInView={{ width: "94%" }}
                   viewport={{ once: true }}
-                  className="h-full bg-white/10"
+                  className="h-full bg-foreground/20"
                 />
               </div>
             </div>

@@ -84,45 +84,45 @@ export function CRUDTable({
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                 <div>
                     <h1 className="text-4xl font-bold tracking-tight mb-2">{title}</h1>
-                    <p className="text-white/40">{subtitle}</p>
+                    <p className="text-muted-foreground/60">{subtitle}</p>
                 </div>
                 <button
                     onClick={() => setIsModalOpen(true)}
-                    className="flex items-center gap-2 px-6 py-3 bg-white text-black font-bold rounded-xl hover:bg-white/90 transition-all"
+                    className="flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground font-bold rounded-xl hover:opacity-90 transition-all shadow-lg shadow-primary/10"
                 >
                     <Plus className="w-5 h-5" />
                     Add New {typeLabel}
                 </button>
             </div>
 
-            <div className="flex flex-col md:flex-row gap-4 items-center justify-between p-4 rounded-2xl bg-white/[0.02] border border-white/5">
-                <div className="flex items-center gap-4 bg-white/5 border border-white/5 px-4 py-2 rounded-xl flex-1 group focus-within:border-white/20 transition-all w-full md:w-auto">
-                    <Search className="w-4 h-4 text-white/20 group-focus-within:text-white/60" />
+            <div className="flex flex-col md:flex-row gap-4 items-center justify-between p-4 rounded-2xl bg-black/[0.02] dark:bg-white/[0.02] border border-border">
+                <div className="flex items-center gap-4 bg-black/5 dark:bg-white/5 border border-border px-4 py-2 rounded-xl flex-1 group focus-within:border-primary transition-all w-full md:w-auto">
+                    <Search className="w-4 h-4 text-muted-foreground/40 group-focus-within:text-foreground/60" />
                     <input
                         placeholder={`Search ${title.toLowerCase()}...`}
-                        className="bg-transparent border-none outline-none text-sm text-white placeholder:text-white/20 w-full"
+                        className="bg-transparent border-none outline-none text-sm text-foreground placeholder:text-muted-foreground/40 w-full"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
                 </div>
                 <div className="flex gap-2 w-full md:w-auto">
-                    <button className="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-white/5 border border-white/5 rounded-xl text-sm font-bold text-white/60 hover:text-white transition-colors">
+                    <button className="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-black/5 dark:bg-white/5 border border-border rounded-xl text-sm font-bold text-muted-foreground/60 hover:text-foreground transition-colors">
                         <Filter className="w-4 h-4" /> Filter
                     </button>
-                    <button className="flex-1 md:flex-none px-4 py-2 bg-white/5 border border-white/5 rounded-xl text-sm font-bold text-white/60 hover:text-white transition-colors">
+                    <button className="flex-1 md:flex-none px-4 py-2 bg-black/5 dark:bg-white/5 border border-border rounded-xl text-sm font-bold text-muted-foreground/60 hover:text-foreground transition-colors">
                         Export
                     </button>
                 </div>
             </div>
 
-            <div className="rounded-2xl border border-white/5 bg-white/[0.02] overflow-hidden">
+            <div className="rounded-2xl border border-border bg-black/[0.01] dark:bg-white/[0.02] overflow-hidden">
                 <table className="w-full text-left border-collapse">
                     <thead>
-                        <tr className="border-b border-white/5 bg-white/[0.01]">
-                            <th className="px-6 py-4 text-xs font-bold uppercase tracking-widest text-white/20">Name</th>
-                            <th className="px-6 py-4 text-xs font-bold uppercase tracking-widest text-white/20">Details</th>
-                            <th className="px-6 py-4 text-xs font-bold uppercase tracking-widest text-white/20">Status</th>
-                            <th className="px-6 py-4 text-xs font-bold uppercase tracking-widest text-white/20 text-right">Actions</th>
+                        <tr className="border-b border-border bg-black/[0.02] dark:bg-white/[0.02]">
+                            <th className="px-6 py-4 text-xs font-bold uppercase tracking-widest text-muted-foreground/40">Name</th>
+                            <th className="px-6 py-4 text-xs font-bold uppercase tracking-widest text-muted-foreground/40">Details</th>
+                            <th className="px-6 py-4 text-xs font-bold uppercase tracking-widest text-muted-foreground/40">Status</th>
+                            <th className="px-6 py-4 text-xs font-bold uppercase tracking-widest text-muted-foreground/40 text-right">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -132,13 +132,13 @@ export function CRUDTable({
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
                                 transition={{ delay: i * 0.05 }}
-                                className="border-b border-white/5 hover:bg-white/[0.03] transition-colors group"
+                                className="border-b border-border hover:bg-black/[0.03] dark:hover:bg-white/[0.03] transition-colors group"
                             >
                                 <td className="px-6 py-6">
                                     {editingIndex === i ? (
                                         <input
                                             type="text"
-                                            className="w-full px-3 py-2 rounded-lg bg-white/10 border border-white/20 outline-none text-sm"
+                                            className="w-full px-3 py-2 rounded-lg bg-black/5 dark:bg-white/10 border border-border focus:border-primary outline-none text-sm"
                                             value={editData.name}
                                             onChange={(e) => setEditData({ ...editData, name: e.target.value })}
                                         />
@@ -146,7 +146,7 @@ export function CRUDTable({
                                         <div>
                                             <p className="font-bold text-sm mb-1">{item.name}</p>
                                             {item.category && (
-                                                <span className="text-[10px] font-bold uppercase tracking-wider text-white/20 px-2 py-0.5 rounded bg-white/5">
+                                                <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground/40 px-2 py-0.5 rounded bg-black/5 dark:bg-white/5 border border-border">
                                                     {item.category}
                                                 </span>
                                             )}
@@ -157,12 +157,12 @@ export function CRUDTable({
                                     {editingIndex === i ? (
                                         <input
                                             type="text"
-                                            className="w-full px-3 py-2 rounded-lg bg-white/10 border border-white/20 outline-none text-sm"
+                                            className="w-full px-3 py-2 rounded-lg bg-black/5 dark:bg-white/10 border border-border focus:border-primary outline-none text-sm"
                                             value={editData.description || editData.url}
                                             onChange={(e) => setEditData({ ...editData, description: e.target.value })}
                                         />
                                     ) : (
-                                        <p className="text-sm text-white/40 line-clamp-1">{item.description || item.url}</p>
+                                        <p className="text-sm text-muted-foreground/40 line-clamp-1">{item.description || item.url}</p>
                                     )}
                                 </td>
                                 <td className="px-6 py-6 font-mono text-[10px]">
@@ -176,13 +176,13 @@ export function CRUDTable({
                                         <div className="flex items-center justify-end gap-2">
                                             <button
                                                 onClick={() => saveEdit(i)}
-                                                className="p-2 rounded-lg bg-green-500/20 hover:bg-green-500/30 transition-colors text-green-500"
+                                                className="p-2 rounded-lg bg-green-500/10 hover:bg-green-500/20 transition-colors text-green-500"
                                             >
                                                 <Save className="w-4 h-4" />
                                             </button>
                                             <button
                                                 onClick={cancelEdit}
-                                                className="p-2 rounded-lg hover:bg-white/10 transition-colors text-white/40 hover:text-white"
+                                                className="p-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-colors text-muted-foreground/40 hover:text-foreground"
                                             >
                                                 <X className="w-4 h-4" />
                                             </button>
@@ -191,20 +191,20 @@ export function CRUDTable({
                                         <div className="flex items-center justify-end gap-2">
                                             <button
                                                 onClick={() => startEdit(i)}
-                                                className="p-2 rounded-lg hover:bg-white/10 transition-colors text-white/40 hover:text-white"
+                                                className="p-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-colors text-muted-foreground/40 hover:text-foreground"
                                             >
                                                 <Edit3 className="w-4 h-4" />
                                             </button>
                                             <button
                                                 onClick={() => handleDelete(i)}
-                                                className="p-2 rounded-lg hover:bg-white/10 transition-colors text-white/40 hover:text-red-500"
+                                                className="p-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-colors text-muted-foreground/40 hover:text-red-500"
                                             >
                                                 <Trash2 className="w-4 h-4" />
                                             </button>
-                                            <a href={item.url} target="_blank" rel="noreferrer" className="p-2 rounded-lg hover:bg-white/10 transition-colors text-white/40 hover:text-white">
+                                            <a href={item.url} target="_blank" rel="noreferrer" className="p-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-colors text-muted-foreground/40 hover:text-foreground">
                                                 <Eye className="w-4 h-4" />
                                             </a>
-                                            <a href={item.url} target="_blank" rel="noreferrer" className="p-2 rounded-lg hover:bg-white/10 transition-colors text-white/40 hover:text-white">
+                                            <a href={item.url} target="_blank" rel="noreferrer" className="p-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-colors text-muted-foreground/40 hover:text-foreground">
                                                 <ExternalLink className="w-4 h-4" />
                                             </a>
                                         </div>
@@ -216,7 +216,7 @@ export function CRUDTable({
                 </table>
             </div>
 
-            <div className="flex justify-between items-center text-xs font-bold text-white/20 uppercase tracking-widest">
+            <div className="flex justify-between items-center text-xs font-bold text-muted-foreground/20 uppercase tracking-widest">
                 <p>Showing {filteredItems.length} of {items.length} items</p>
             </div>
 

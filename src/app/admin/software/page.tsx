@@ -1,6 +1,6 @@
 "use client";
 
-import { CRUDTable, Item } from "@/components/admin/CRUDTable";
+import { CRUDTable } from "@/components/admin/CRUDTable";
 import { SOFTWARE } from "@/data/config";
 
 interface SoftwareItem {

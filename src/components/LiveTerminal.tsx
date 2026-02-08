@@ -41,9 +41,9 @@ export function LiveTerminal() {
     if (!isOpen) return (
         <button
             onClick={() => setIsOpen(true)}
-            className="fixed bottom-6 right-6 p-4 glass-card rounded-full border-white/10 hover:border-white/20 transition-all z-40"
+            className="fixed bottom-6 right-6 p-4 glass-card rounded-full hover:border-border transition-all z-40"
         >
-            <TerminalIcon className="w-6 h-6" />
+            <TerminalIcon className="w-6 h-6 text-foreground" />
         </button>
     );
 
@@ -51,15 +51,15 @@ export function LiveTerminal() {
         <motion.div
             initial={{ y: 100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            className="fixed bottom-6 right-6 w-80 md:w-96 glass-card rounded-2xl border border-white/10 overflow-hidden shadow-2xl z-40"
+            className="fixed bottom-6 right-6 w-80 md:w-96 glass-card rounded-2xl overflow-hidden shadow-2xl z-40"
         >
-            <div className="flex items-center justify-between px-4 py-2 bg-white/5 border-b border-white/5">
+            <div className="flex items-center justify-between px-4 py-2 bg-black/5 dark:bg-white/5 border-b border-border">
                 <div className="flex items-center gap-2">
-                    <TerminalIcon className="w-3 h-3 text-white/40" />
-                    <span className="text-[10px] uppercase tracking-widest font-bold text-white/40">Neural Console</span>
+                    <TerminalIcon className="w-3 h-3 text-muted-foreground/60" />
+                    <span className="text-[10px] uppercase tracking-widest font-bold text-muted-foreground/60">Neural Console</span>
                 </div>
                 <div className="flex items-center gap-2">
-                    <button onClick={() => setIsOpen(false)} className="hover:text-white text-white/40">
+                    <button onClick={() => setIsOpen(false)} className="hover:text-foreground text-muted-foreground/60 transition-colors">
                         <Minimize2 className="w-3 h-3" />
                     </button>
                 </div>
@@ -67,17 +67,17 @@ export function LiveTerminal() {
 
             <div
                 ref={scrollRef}
-                className="p-4 h-48 overflow-y-auto font-mono text-[10px] space-y-1 selection:bg-white/20"
+                className="p-4 h-48 overflow-y-auto font-mono text-[10px] space-y-1 selection:bg-primary/20"
             >
                 {lines.map((line, i) => (
                     <div key={i} className="flex gap-2">
-                        <span className="text-white/20">{">"}</span>
-                        <span className={i === lines.length - 1 ? "text-white" : "text-white/60"}>{line}</span>
+                        <span className="text-muted-foreground/40">{">"}</span>
+                        <span className={i === lines.length - 1 ? "text-foreground" : "text-muted-foreground"}>{line}</span>
                     </div>
                 ))}
-                <div className="flex gap-2 text-white/60">
-                    <span className="text-white/20">{">"}</span>
-                    <span className="w-2 h-4 bg-white/40 animate-pulse" />
+                <div className="flex gap-2 text-muted-foreground">
+                    <span className="text-muted-foreground/40">{">"}</span>
+                    <span className="w-2 h-4 bg-primary/40 animate-pulse" />
                 </div>
             </div>
         </motion.div>

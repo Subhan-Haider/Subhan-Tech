@@ -27,14 +27,14 @@ export function ExtensionCard({ name, description, url, platform }: ExtensionCar
             className="glass-card rounded-2xl p-6 relative overflow-hidden group border-glow"
         >
             <div className="flex justify-between items-start mb-4">
-                <div className="p-3 rounded-xl bg-white/5 border border-white/10 group-hover:border-white/20 transition-colors">
+                <div className="p-3 rounded-xl bg-black/5 dark:bg-white/5 border border-border group-hover:border-primary/20 transition-colors">
                     {getIcon()}
                 </div>
                 <a
                     href={url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-2 rounded-lg hover:bg-white/10 transition-colors text-muted-foreground hover:text-foreground"
+                    className="p-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-colors text-muted-foreground hover:text-foreground"
                 >
                     <ExternalLink className="w-5 h-5" />
                 </a>
@@ -44,7 +44,7 @@ export function ExtensionCard({ name, description, url, platform }: ExtensionCar
             <p className="text-muted-foreground text-sm line-clamp-2">{description}</p>
 
             <div className="mt-6 flex items-center gap-2">
-                <span className="text-[10px] uppercase tracking-wider font-bold text-white/40 px-2 py-1 rounded bg-white/5 border border-white/5">
+                <span className="text-[10px] uppercase tracking-wider font-bold text-muted-foreground/40 px-2 py-1 rounded bg-black/5 dark:bg-white/5 border border-border">
                     {platform}
                 </span>
             </div>

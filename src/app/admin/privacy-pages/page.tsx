@@ -81,11 +81,11 @@ export default function PrivacyPagesManager() {
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                 <div>
                     <h1 className="text-4xl font-bold tracking-tight mb-2">Privacy Pages Manager</h1>
-                    <p className="text-white/40">Create and manage privacy policies for browser extensions.</p>
+                    <p className="text-muted-foreground/60">Create and manage privacy policies for browser extensions.</p>
                 </div>
                 <button
                     onClick={() => setIsCreating(true)}
-                    className="flex items-center gap-2 px-6 py-3 bg-white text-black font-bold rounded-xl hover:bg-white/90 transition-all"
+                    className="flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground font-bold rounded-xl hover:opacity-90 transition-all shadow-lg shadow-primary/10"
                 >
                     <Plus className="w-5 h-5" />
                     Create Privacy Page
@@ -105,13 +105,13 @@ export default function PrivacyPagesManager() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: i * 0.1 }}
-                        className="glass-card p-6 rounded-2xl border border-white/5"
+                        className="glass-card p-6 rounded-2xl border border-border bg-black/[0.02] dark:bg-white/[0.02]"
                     >
                         <div className="flex items-center gap-3 mb-3">
-                            <div className="p-2 rounded-lg bg-white/5">
-                                <stat.icon className="w-5 h-5 text-white/60" />
+                            <div className="p-2 rounded-lg bg-black/5 dark:bg-white/5">
+                                <stat.icon className="w-5 h-5 text-muted-foreground/60" />
                             </div>
-                            <p className="text-xs font-bold uppercase tracking-widest text-white/40">{stat.label}</p>
+                            <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground/40">{stat.label}</p>
                         </div>
                         <p className="text-3xl font-bold">{stat.value}</p>
                     </motion.div>
@@ -123,25 +123,25 @@ export default function PrivacyPagesManager() {
                 <motion.div
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: "auto" }}
-                    className="glass-card p-8 rounded-2xl border border-white/5 overflow-hidden"
+                    className="glass-card p-8 rounded-2xl border border-border bg-black/[0.02] dark:bg-white/[0.02] overflow-hidden"
                 >
                     <h2 className="text-2xl font-bold mb-6">Create New Privacy Page</h2>
                     <div className="space-y-4">
                         <div>
-                            <label className="block text-sm font-bold mb-2 text-white/60">Extension Name</label>
+                            <label className="block text-sm font-bold mb-2 text-muted-foreground/60">Extension Name</label>
                             <input
                                 type="text"
-                                className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-white/30 outline-none transition-all text-white"
+                                className="w-full px-4 py-3 rounded-xl bg-black/5 dark:bg-white/5 border border-border focus:border-primary outline-none transition-all text-foreground"
                                 placeholder="e.g., CodeLens"
                                 value={newPage.extensionName}
                                 onChange={(e) => setNewPage({ ...newPage, extensionName: e.target.value })}
                             />
                         </div>
                         <div>
-                            <label className="block text-sm font-bold mb-2 text-white/60">Extension ID</label>
+                            <label className="block text-sm font-bold mb-2 text-muted-foreground/60">Extension ID</label>
                             <input
                                 type="text"
-                                className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-white/30 outline-none transition-all text-white"
+                                className="w-full px-4 py-3 rounded-xl bg-black/5 dark:bg-white/5 border border-border focus:border-primary outline-none transition-all text-foreground"
                                 placeholder="chrome_extension_v1"
                                 value={newPage.extensionId}
                                 onChange={(e) => setNewPage({ ...newPage, extensionId: e.target.value })}
@@ -150,13 +150,13 @@ export default function PrivacyPagesManager() {
                         <div className="flex gap-4 pt-4">
                             <button
                                 onClick={() => setIsCreating(false)}
-                                className="flex-1 px-6 py-3 border border-white/10 rounded-xl font-bold hover:bg-white/5 transition-all"
+                                className="flex-1 px-6 py-3 border border-border rounded-xl font-bold hover:bg-black/5 dark:hover:bg-white/5 transition-all text-foreground"
                             >
                                 Cancel
                             </button>
                             <button
                                 onClick={handleCreate}
-                                className="flex-1 px-6 py-3 bg-white text-black font-bold rounded-xl hover:bg-white/90 transition-all"
+                                className="flex-1 px-6 py-3 bg-primary text-primary-foreground font-bold rounded-xl hover:opacity-90 transition-all shadow-lg shadow-primary/10"
                             >
                                 Create Page
                             </button>
@@ -173,7 +173,7 @@ export default function PrivacyPagesManager() {
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: i * 0.1 }}
-                        className="glass-card p-6 rounded-2xl border border-white/5 hover:border-white/20 transition-all"
+                        className="glass-card p-6 rounded-2xl border border-border bg-black/10 dark:bg-white/[0.02] hover:border-primary/20 transition-all"
                     >
                         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                             <div className="flex-1">
@@ -187,24 +187,24 @@ export default function PrivacyPagesManager() {
                                         {page.status}
                                     </span>
                                 </div>
-                                <p className="text-sm text-white/40 mb-3">Extension ID: <code className="text-blue-400">{page.extensionId}</code></p>
+                                <p className="text-sm text-muted-foreground/40 mb-3">Extension ID: <code className="text-blue-400">{page.extensionId}</code></p>
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
                                     <div>
-                                        <p className="text-xs font-bold uppercase tracking-widest text-white/40 mb-2">Data Collected</p>
+                                        <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground/40 mb-2">Data Collected</p>
                                         <div className="flex flex-wrap gap-2">
                                             {page.dataCollected.length > 0 ? page.dataCollected.map((data, idx) => (
-                                                <span key={idx} className="px-2 py-1 rounded bg-white/5 text-xs text-white/60">
+                                                <span key={idx} className="px-2 py-1 rounded bg-black/5 dark:bg-white/5 text-xs text-muted-foreground/60 border border-border">
                                                     {data}
                                                 </span>
-                                            )) : <span className="text-xs text-white/40">None</span>}
+                                            )) : <span className="text-xs text-muted-foreground/40">None</span>}
                                         </div>
                                     </div>
                                     <div>
-                                        <p className="text-xs font-bold uppercase tracking-widest text-white/40 mb-2">Permissions</p>
+                                        <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground/40 mb-2">Permissions</p>
                                         <div className="flex flex-wrap gap-2">
                                             {page.permissions.map((perm, idx) => (
-                                                <span key={idx} className="px-2 py-1 rounded bg-blue-500/10 text-xs text-blue-400">
+                                                <span key={idx} className="px-2 py-1 rounded bg-blue-500/10 text-xs text-blue-400 border border-blue-500/10">
                                                     {perm}
                                                 </span>
                                             ))}
@@ -212,22 +212,22 @@ export default function PrivacyPagesManager() {
                                     </div>
                                 </div>
 
-                                <p className="text-xs text-white/40">Last updated: {page.lastUpdated}</p>
+                                <p className="text-xs text-muted-foreground/40">Last updated: {page.lastUpdated}</p>
                             </div>
                             <div className="flex items-center gap-2">
-                                <button className="p-2 rounded-lg hover:bg-white/10 transition-colors text-white/40 hover:text-white">
+                                <button className="p-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-colors text-muted-foreground/40 hover:text-foreground">
                                     <Eye className="w-4 h-4" />
                                 </button>
-                                <button className="p-2 rounded-lg hover:bg-white/10 transition-colors text-white/40 hover:text-white">
+                                <button className="p-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-colors text-muted-foreground/40 hover:text-foreground">
                                     <Edit3 className="w-4 h-4" />
                                 </button>
                                 <button
                                     onClick={() => handleDelete(page.id)}
-                                    className="p-2 rounded-lg hover:bg-white/10 transition-colors text-white/40 hover:text-red-500"
+                                    className="p-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-colors text-muted-foreground/40 hover:text-red-500"
                                 >
                                     <Trash2 className="w-4 h-4" />
                                 </button>
-                                <button className="px-4 py-2 bg-white/5 rounded-lg text-sm font-bold hover:bg-white/10 transition-colors">
+                                <button className="px-4 py-2 bg-black/5 dark:bg-white/5 border border-border rounded-lg text-sm font-bold hover:bg-black/10 dark:hover:bg-white/10 transition-colors text-foreground">
                                     Generate Policy
                                 </button>
                             </div>
@@ -241,13 +241,13 @@ export default function PrivacyPagesManager() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.5 }}
-                className="glass-card p-8 rounded-2xl border border-white/5"
+                className="glass-card p-8 rounded-2xl border border-border"
             >
                 <h2 className="text-2xl font-bold mb-4">Privacy Policy Template</h2>
-                <p className="text-white/60 mb-4">
+                <p className="text-muted-foreground/60 mb-4">
                     Our privacy policy generator automatically creates compliant policies based on:
                 </p>
-                <ul className="space-y-2 text-white/60">
+                <ul className="space-y-2 text-muted-foreground/60">
                     <li className="flex items-start gap-2">
                         <CheckCircle className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
                         <span>Chrome Web Store requirements</span>

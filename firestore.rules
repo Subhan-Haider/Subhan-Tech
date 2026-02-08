@@ -1,0 +1,45 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper function to check if the requester is the authorized administrator
+    function isAdmin() {
+      return request.auth != null && 
+             request.auth.token.email == 'firebase-adminsdk-fbsvc@subahan-tech.iam.gserviceaccount.com';
+    }
+
+    // Default rule: Lock down all documents by default
+    match /{document=**} {
+      // Allow the public to read software, tools, and project data
+      // Change to 'if isAdmin()' if you want the entire database to be private
+      allow read: if true;
+      
+      // Restrict all write operations (create, update, delete) to the admin only
+      allow write: if isAdmin();
+    }
+    
+    // Specific collection rules (examples for future expansion)
+    
+    // Analytics & System Logs - Restricted to Admin Read/Write
+    match /analytics/{document=**} {
+      allow read, write: if isAdmin();
+    }
+    
+    match /system_logs/{document=**} {
+      allow read, write: if isAdmin();
+    }
+    
+    // User Surveys - Public can create, Admin can manage
+    match /surveys/{surveyId} {
+      allow create: if true; 
+      allow read, update, delete: if isAdmin();
+    }
+
+    // Coupons - Public can read, Admin can manage
+    match /coupons/{couponId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+  }
+}

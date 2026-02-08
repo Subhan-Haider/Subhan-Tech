@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { Search, Settings, Hexagon } from "lucide-react";
 import Link from "next/link";
+import { ThemeToggle } from "./ThemeToggle";
 
 export function Navbar() {
     return (
@@ -10,14 +11,14 @@ export function Navbar() {
             <motion.div
                 initial={{ y: -20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
-                className="glass-card flex items-center gap-8 px-6 py-3 rounded-2xl border border-white/10"
+                className="glass-card flex items-center gap-8 px-6 py-3 rounded-2xl"
             >
                 <Link href="/" className="flex items-center gap-2 group">
-                    <Hexagon className="w-6 h-6 text-white transition-transform group-hover:rotate-180 duration-500" />
+                    <Hexagon className="w-6 h-6 text-foreground transition-transform group-hover:rotate-180 duration-500" />
                     <span className="font-bold tracking-tight text-glow">subhan.tech</span>
                 </Link>
 
-                <div className="h-4 w-px bg-white/10" />
+                <div className="h-4 w-px bg-border" />
 
                 <div className="flex items-center gap-6">
                     <Link href="/about" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">About</Link>
@@ -27,13 +28,14 @@ export function Navbar() {
                     <Link href="/contact" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">Contact</Link>
                 </div>
 
-                <div className="h-4 w-px bg-white/10" />
+                <div className="h-4 w-px bg-border" />
 
                 <div className="flex items-center gap-4">
-                    <button className="p-2 rounded-lg hover:bg-white/5 transition-colors">
+                    <button className="p-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
                         <Search className="w-4 h-4 text-muted-foreground" />
                     </button>
-                    <button className="p-2 rounded-lg hover:bg-white/5 transition-colors">
+                    <ThemeToggle />
+                    <button className="p-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
                         <Settings className="w-4 h-4 text-muted-foreground" />
                     </button>
                 </div>

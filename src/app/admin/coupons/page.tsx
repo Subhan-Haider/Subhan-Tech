@@ -38,17 +38,17 @@ export default function CouponsManager() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: i * 0.1 }}
-                        className="glass-card p-6 rounded-2xl border border-white/5 bg-white/[0.02] relative overflow-hidden"
+                        className="glass-card p-6 rounded-2xl border border-border bg-black/[0.02] dark:bg-white/[0.02] relative overflow-hidden"
                     >
                         <div className="flex items-center gap-4 mb-2">
-                            <div className={`p-2 rounded-lg bg-white/5 ${stat.color}`}>
+                            <div className={`p-2 rounded-lg bg-black/5 dark:bg-white/5 ${stat.color}`}>
                                 <stat.icon className="w-5 h-5" />
                             </div>
-                            <span className="text-[10px] font-bold uppercase tracking-widest text-white/40">{stat.label}</span>
+                            <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/40">{stat.label}</span>
                         </div>
                         <p className="text-3xl font-bold">{stat.value}</p>
                         <div className="absolute top-0 right-0 p-4 opacity-5">
-                            <stat.icon className="w-20 h-20" />
+                            <stat.icon className="w-20 h-20 text-foreground" />
                         </div>
                     </motion.div>
                 ))}

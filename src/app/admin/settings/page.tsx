@@ -28,11 +28,11 @@ export default function SettingsPage() {
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                 <div>
                     <h1 className="text-4xl font-bold tracking-tight mb-2">System Settings</h1>
-                    <p className="text-white/40">Configure platform settings and preferences.</p>
+                    <p className="text-muted-foreground/60">Configure platform settings and preferences.</p>
                 </div>
                 <button
                     onClick={handleSave}
-                    className="flex items-center gap-2 px-6 py-3 bg-white text-black font-bold rounded-xl hover:bg-white/90 transition-all"
+                    className="flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground font-bold rounded-xl hover:opacity-90 transition-all shadow-lg shadow-primary/10"
                 >
                     <Save className="w-5 h-5" />
                     Save Changes
@@ -43,40 +43,40 @@ export default function SettingsPage() {
             <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="glass-card p-8 rounded-2xl border border-white/5"
+                className="glass-card p-8 rounded-2xl border border-border bg-black/[0.02] dark:bg-white/[0.02]"
             >
                 <div className="flex items-center gap-3 mb-6">
-                    <div className="p-3 rounded-xl bg-white/5">
-                        <Globe className="w-6 h-6" />
+                    <div className="p-3 rounded-xl bg-black/5 dark:bg-white/5">
+                        <Globe className="w-6 h-6 text-muted-foreground/60" />
                     </div>
                     <h2 className="text-2xl font-bold">General Settings</h2>
                 </div>
                 <div className="space-y-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <label className="block text-sm font-bold mb-2 text-white/60">Site Name</label>
+                            <label className="block text-sm font-bold mb-2 text-muted-foreground/60">Site Name</label>
                             <input
                                 type="text"
-                                className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-white/30 outline-none transition-all text-white"
+                                className="w-full px-4 py-3 rounded-xl bg-black/5 dark:bg-white/5 border border-border focus:border-primary outline-none transition-all text-foreground"
                                 value={settings.siteName}
                                 onChange={(e) => setSettings({ ...settings, siteName: e.target.value })}
                             />
                         </div>
                         <div>
-                            <label className="block text-sm font-bold mb-2 text-white/60">Site URL</label>
+                            <label className="block text-sm font-bold mb-2 text-muted-foreground/60">Site URL</label>
                             <input
                                 type="url"
-                                className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-white/30 outline-none transition-all text-white"
+                                className="w-full px-4 py-3 rounded-xl bg-black/5 dark:bg-white/5 border border-border focus:border-primary outline-none transition-all text-foreground"
                                 value={settings.siteUrl}
                                 onChange={(e) => setSettings({ ...settings, siteUrl: e.target.value })}
                             />
                         </div>
                     </div>
                     <div>
-                        <label className="block text-sm font-bold mb-2 text-white/60">Admin Email</label>
+                        <label className="block text-sm font-bold mb-2 text-muted-foreground/60">Admin Email</label>
                         <input
                             type="email"
-                            className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-white/30 outline-none transition-all text-white"
+                            className="w-full px-4 py-3 rounded-xl bg-black/5 dark:bg-white/5 border border-border focus:border-primary outline-none transition-all text-foreground"
                             value={settings.adminEmail}
                             onChange={(e) => setSettings({ ...settings, adminEmail: e.target.value })}
                         />
@@ -89,30 +89,30 @@ export default function SettingsPage() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.1 }}
-                className="glass-card p-8 rounded-2xl border border-white/5"
+                className="glass-card p-8 rounded-2xl border border-border bg-black/[0.02] dark:bg-white/[0.02]"
             >
                 <div className="flex items-center gap-3 mb-6">
-                    <div className="p-3 rounded-xl bg-white/5">
-                        <Shield className="w-6 h-6" />
+                    <div className="p-3 rounded-xl bg-black/5 dark:bg-white/5">
+                        <Shield className="w-6 h-6 text-muted-foreground/60" />
                     </div>
                     <h2 className="text-2xl font-bold">Security & API</h2>
                 </div>
                 <div className="space-y-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <label className="block text-sm font-bold mb-2 text-white/60">API Rate Limit (requests/hour)</label>
+                            <label className="block text-sm font-bold mb-2 text-muted-foreground/60">API Rate Limit (requests/hour)</label>
                             <input
                                 type="number"
-                                className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-white/30 outline-none transition-all text-white"
+                                className="w-full px-4 py-3 rounded-xl bg-black/5 dark:bg-white/5 border border-border focus:border-primary outline-none transition-all text-foreground"
                                 value={settings.apiRateLimit}
                                 onChange={(e) => setSettings({ ...settings, apiRateLimit: parseInt(e.target.value) })}
                             />
                         </div>
                         <div>
-                            <label className="block text-sm font-bold mb-2 text-white/60">Session Timeout (hours)</label>
+                            <label className="block text-sm font-bold mb-2 text-muted-foreground/60">Session Timeout (hours)</label>
                             <input
                                 type="number"
-                                className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-white/30 outline-none transition-all text-white"
+                                className="w-full px-4 py-3 rounded-xl bg-black/5 dark:bg-white/5 border border-border focus:border-primary outline-none transition-all text-foreground"
                                 value={settings.sessionTimeout}
                                 onChange={(e) => setSettings({ ...settings, sessionTimeout: parseInt(e.target.value) })}
                             />
@@ -120,8 +120,8 @@ export default function SettingsPage() {
                     </div>
                     <div className="p-4 rounded-xl bg-yellow-500/10 border border-yellow-500/20">
                         <p className="text-sm text-yellow-500 font-bold mb-2">🔐 API Keys</p>
-                        <p className="text-sm text-white/60 mb-3">Manage your API keys and access tokens</p>
-                        <button className="px-4 py-2 bg-white/5 rounded-lg text-sm font-bold hover:bg-white/10 transition-colors">
+                        <p className="text-sm text-muted-foreground/60 mb-3">Manage your API keys and access tokens</p>
+                        <button className="px-4 py-2 bg-black/5 dark:bg-white/5 border border-border rounded-lg text-sm font-bold hover:bg-black/10 dark:hover:bg-white/10 transition-colors">
                             Manage API Keys
                         </button>
                     </div>
@@ -133,11 +133,11 @@ export default function SettingsPage() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.2 }}
-                className="glass-card p-8 rounded-2xl border border-white/5"
+                className="glass-card p-8 rounded-2xl border border-border bg-black/[0.02] dark:bg-white/[0.02]"
             >
                 <div className="flex items-center gap-3 mb-6">
-                    <div className="p-3 rounded-xl bg-white/5">
-                        <Settings className="w-6 h-6" />
+                    <div className="p-3 rounded-xl bg-black/5 dark:bg-white/5">
+                        <Settings className="w-6 h-6 text-muted-foreground/60" />
                     </div>
                     <h2 className="text-2xl font-bold">Feature Toggles</h2>
                 </div>
@@ -163,16 +163,16 @@ export default function SettingsPage() {
                             warning: true
                         },
                     ].map((feature) => (
-                        <div key={feature.key} className={`p-6 rounded-xl border ${feature.warning ? "bg-red-500/10 border-red-500/20" : "bg-white/5 border-white/5"
+                        <div key={feature.key} className={`p-6 rounded-xl border ${feature.warning ? "bg-destructive/10 border-destructive/20" : "bg-black/5 dark:bg-white/5 border-border"
                             }`}>
                             <div className="flex items-center justify-between">
                                 <div className="flex items-center gap-4">
-                                    <div className="p-2 rounded-lg bg-white/5">
-                                        <feature.icon className="w-5 h-5 text-white/60" />
+                                    <div className="p-2 rounded-lg bg-black/5 dark:bg-white/5">
+                                        <feature.icon className="w-5 h-5 text-muted-foreground/60" />
                                     </div>
                                     <div>
                                         <p className="font-bold mb-1">{feature.label}</p>
-                                        <p className="text-sm text-white/40">{feature.desc}</p>
+                                        <p className="text-sm text-muted-foreground/40">{feature.desc}</p>
                                     </div>
                                 </div>
                                 <label className="relative inline-flex items-center cursor-pointer">
@@ -182,7 +182,7 @@ export default function SettingsPage() {
                                         checked={settings[feature.key as keyof typeof settings] as boolean}
                                         onChange={(e) => setSettings({ ...settings, [feature.key]: e.target.checked })}
                                     />
-                                    <div className="w-14 h-7 bg-white/10 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-white after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-green-500"></div>
+                                    <div className="w-14 h-7 bg-black/10 dark:bg-white/10 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-primary-foreground after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-foreground after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-primary"></div>
                                 </label>
                             </div>
                         </div>
@@ -195,52 +195,52 @@ export default function SettingsPage() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.3 }}
-                className="glass-card p-8 rounded-2xl border border-white/5"
+                className="glass-card p-8 rounded-2xl border border-border bg-black/[0.02] dark:bg-white/[0.02]"
             >
                 <div className="flex items-center gap-3 mb-6">
-                    <div className="p-3 rounded-xl bg-white/5">
-                        <Mail className="w-6 h-6" />
+                    <div className="p-3 rounded-xl bg-black/5 dark:bg-white/5">
+                        <Mail className="w-6 h-6 text-muted-foreground/60" />
                     </div>
                     <h2 className="text-2xl font-bold">Email Configuration</h2>
                 </div>
                 <div className="space-y-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <label className="block text-sm font-bold mb-2 text-white/60">SMTP Host</label>
+                            <label className="block text-sm font-bold mb-2 text-muted-foreground/60">SMTP Host</label>
                             <input
                                 type="text"
-                                className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-white/30 outline-none transition-all text-white"
+                                className="w-full px-4 py-3 rounded-xl bg-black/5 dark:bg-white/5 border border-border focus:border-primary outline-none transition-all text-foreground"
                                 placeholder="smtp.example.com"
                             />
                         </div>
                         <div>
-                            <label className="block text-sm font-bold mb-2 text-white/60">SMTP Port</label>
+                            <label className="block text-sm font-bold mb-2 text-muted-foreground/60">SMTP Port</label>
                             <input
                                 type="number"
-                                className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-white/30 outline-none transition-all text-white"
+                                className="w-full px-4 py-3 rounded-xl bg-black/5 dark:bg-white/5 border border-border focus:border-primary outline-none transition-all text-foreground"
                                 placeholder="587"
                             />
                         </div>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <label className="block text-sm font-bold mb-2 text-white/60">SMTP Username</label>
+                            <label className="block text-sm font-bold mb-2 text-muted-foreground/60">SMTP Username</label>
                             <input
                                 type="text"
-                                className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-white/30 outline-none transition-all text-white"
+                                className="w-full px-4 py-3 rounded-xl bg-black/5 dark:bg-white/5 border border-border focus:border-primary outline-none transition-all text-foreground"
                                 placeholder="user@example.com"
                             />
                         </div>
                         <div>
-                            <label className="block text-sm font-bold mb-2 text-white/60">SMTP Password</label>
+                            <label className="block text-sm font-bold mb-2 text-muted-foreground/60">SMTP Password</label>
                             <input
                                 type="password"
-                                className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-white/30 outline-none transition-all text-white"
+                                className="w-full px-4 py-3 rounded-xl bg-black/5 dark:bg-white/5 border border-border focus:border-primary outline-none transition-all text-foreground"
                                 placeholder="••••••••"
                             />
                         </div>
                     </div>
-                    <button className="px-4 py-2 bg-white/5 border border-white/5 rounded-lg text-sm font-bold hover:bg-white/10 transition-colors">
+                    <button className="px-4 py-2 bg-black/5 dark:bg-white/5 border border-border rounded-lg text-sm font-bold hover:bg-black/10 dark:hover:bg-white/10 transition-colors">
                         Test Email Configuration
                     </button>
                 </div>
@@ -251,26 +251,26 @@ export default function SettingsPage() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.4 }}
-                className="glass-card p-8 rounded-2xl border border-white/5"
+                className="glass-card p-8 rounded-2xl border border-border bg-black/[0.02] dark:bg-white/[0.02]"
             >
                 <div className="flex items-center gap-3 mb-6">
-                    <div className="p-3 rounded-xl bg-white/5">
-                        <Users className="w-6 h-6" />
+                    <div className="p-3 rounded-xl bg-black/5 dark:bg-white/5">
+                        <Users className="w-6 h-6 text-muted-foreground/60" />
                     </div>
                     <h2 className="text-2xl font-bold">User Management</h2>
                 </div>
                 <div className="space-y-4">
                     <div className="p-4 rounded-xl bg-blue-500/10 border border-blue-500/20">
                         <p className="text-sm text-blue-400 font-bold mb-2">👥 Admin Users</p>
-                        <p className="text-sm text-white/60 mb-3">Manage admin access and permissions</p>
-                        <button className="px-4 py-2 bg-white/5 rounded-lg text-sm font-bold hover:bg-white/10 transition-colors">
+                        <p className="text-sm text-muted-foreground/60 mb-3">Manage admin access and permissions</p>
+                        <button className="px-4 py-2 bg-black/5 dark:bg-white/5 border border-border rounded-lg text-sm font-bold hover:bg-black/10 dark:hover:bg-white/10 transition-colors text-foreground">
                             Manage Admins
                         </button>
                     </div>
                     <div className="p-4 rounded-xl bg-green-500/10 border border-green-500/20">
                         <p className="text-sm text-green-400 font-bold mb-2">🔑 Invite Codes</p>
-                        <p className="text-sm text-white/60 mb-3">Generate invite codes for new users</p>
-                        <button className="px-4 py-2 bg-white/5 rounded-lg text-sm font-bold hover:bg-white/10 transition-colors">
+                        <p className="text-sm text-muted-foreground/60 mb-3">Generate invite codes for new users</p>
+                        <button className="px-4 py-2 bg-black/5 dark:bg-white/5 border border-border rounded-lg text-sm font-bold hover:bg-black/10 dark:hover:bg-white/10 transition-colors text-foreground">
                             Generate Codes
                         </button>
                     </div>

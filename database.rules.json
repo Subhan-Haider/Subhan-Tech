@@ -1,0 +1,10 @@
+{
+    "rules": {
+        ".read": "auth != null && auth.token.email === 'firebase-adminsdk-fbsvc@subahan-tech.iam.gserviceaccount.com'",
+        ".write": "auth != null && auth.token.email === 'firebase-adminsdk-fbsvc@subahan-tech.iam.gserviceaccount.com'",
+        "public": {
+            ".read": true,
+            ".write": "auth != null && auth.token.email === 'firebase-adminsdk-fbsvc@subahan-tech.iam.gserviceaccount.com'"
+        }
+    }
+}

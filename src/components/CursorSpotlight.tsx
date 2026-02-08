@@ -25,7 +25,7 @@ export function CursorSpotlight() {
         <motion.div
             className="fixed inset-0 pointer-events-none z-30"
             style={{
-                background: `radial-gradient(circle 400px at ${springX}px ${springY}px, rgba(255, 255, 255, 0.03), transparent 80%)`,
+                background: `radial-gradient(circle 400px at ${springX}px ${springY}px, var(--spotlight-color), transparent 80%)`,
             }}
         />
     );

@@ -48,13 +48,13 @@ export default function AnalyticsPage() {
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                 <div>
                     <h1 className="text-4xl font-bold tracking-tight mb-2">Analytics Dashboard</h1>
-                    <p className="text-white/40">Real-time insights into your platform&apos;s performance and user behavior.</p>
+                    <p className="text-muted-foreground/60">Real-time insights into your platform&apos;s performance and user behavior.</p>
                 </div>
                 <div className="flex gap-3">
-                    <button className="flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/5 rounded-xl text-sm font-bold hover:bg-white/10 transition-colors">
+                    <button className="flex items-center gap-2 px-4 py-2 bg-black/5 dark:bg-white/5 border border-border rounded-xl text-sm font-bold hover:bg-black/10 dark:hover:bg-white/10 transition-colors">
                         <Calendar className="w-4 h-4" /> Last 7 Days
                     </button>
-                    <button className="flex items-center gap-2 px-4 py-2 bg-white text-black font-bold rounded-xl hover:bg-white/90 transition-all">
+                    <button className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground font-bold rounded-xl hover:opacity-90 transition-all shadow-lg shadow-primary/10">
                         <Download className="w-4 h-4" /> Export Report
                     </button>
                 </div>
@@ -73,18 +73,18 @@ export default function AnalyticsPage() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: i * 0.1 }}
-                        className="glass-card p-6 rounded-2xl border border-white/5"
+                        className="glass-card p-6 rounded-2xl border border-border bg-black/[0.02] dark:bg-white/[0.02]"
                     >
                         <div className="flex items-center justify-between mb-4">
-                            <div className="p-3 rounded-xl bg-white/5">
-                                <metric.icon className="w-5 h-5 text-white/60" />
+                            <div className="p-3 rounded-xl bg-black/5 dark:bg-white/5">
+                                <metric.icon className="w-5 h-5 text-muted-foreground/60" />
                             </div>
                             <span className={`text-xs font-bold ${metric.trend === "up" ? "text-green-500" : "text-red-500"
                                 }`}>
                                 {metric.change}
                             </span>
                         </div>
-                        <p className="text-xs font-bold uppercase tracking-widest text-white/40 mb-1">{metric.label}</p>
+                        <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground/40 mb-1">{metric.label}</p>
                         <p className="text-3xl font-bold">{metric.value}</p>
                     </motion.div>
                 ))}
@@ -100,24 +100,24 @@ export default function AnalyticsPage() {
                 <div className="flex items-center justify-between mb-6">
                     <div>
                         <h2 className="text-2xl font-bold mb-1">Traffic Overview</h2>
-                        <p className="text-sm text-white/40">Daily visitors and page views</p>
+                        <p className="text-sm text-muted-foreground/40">Daily visitors and page views</p>
                     </div>
-                    <button className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-lg text-sm font-bold hover:bg-white/10 transition-colors">
+                    <button className="flex items-center gap-2 px-4 py-2 bg-black/5 dark:bg-white/5 border border-border rounded-lg text-sm font-bold hover:bg-black/10 dark:hover:bg-white/10 transition-colors">
                         <Filter className="w-4 h-4" /> Filter
                     </button>
                 </div>
                 <div className="h-80">
                     <ResponsiveContainer width="100%" height="100%">
                         <LineChart data={trafficData}>
-                            <CartesianGrid strokeDasharray="3 3" stroke="#ffffff10" />
-                            <XAxis dataKey="date" stroke="#ffffff40" tick={{ fontSize: 12 }} />
-                            <YAxis stroke="#ffffff40" tick={{ fontSize: 12 }} />
+                            <CartesianGrid strokeDasharray="3 3" stroke="currentColor" className="text-border/50" />
+                            <XAxis dataKey="date" stroke="currentColor" className="text-muted-foreground/40" tick={{ fontSize: 12 }} />
+                            <YAxis stroke="currentColor" className="text-muted-foreground/40" tick={{ fontSize: 12 }} />
                             <Tooltip
                                 contentStyle={{
-                                    backgroundColor: '#111',
-                                    border: '1px solid #ffffff20',
+                                    backgroundColor: 'hsl(var(--background))',
+                                    border: '1px solid hsl(var(--border))',
                                     borderRadius: '12px',
-                                    color: '#fff'
+                                    color: 'hsl(var(--foreground))'
                                 }}
                             />
                             <Legend />
@@ -134,7 +134,7 @@ export default function AnalyticsPage() {
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.5 }}
-                    className="glass-card p-8 rounded-2xl border border-white/5"
+                    className="glass-card p-8 rounded-2xl border border-border bg-black/[0.02] dark:bg-white/[0.02]"
                 >
                     <h2 className="text-2xl font-bold mb-6">Device Distribution</h2>
                     <div className="h-64 flex items-center justify-center">
@@ -155,8 +155,8 @@ export default function AnalyticsPage() {
                                 </Pie>
                                 <Tooltip
                                     contentStyle={{
-                                        backgroundColor: '#111',
-                                        border: '1px solid #ffffff20',
+                                        backgroundColor: 'hsl(var(--background))',
+                                        border: '1px solid hsl(var(--border))',
                                         borderRadius: '12px'
                                     }}
                                 />
@@ -167,7 +167,7 @@ export default function AnalyticsPage() {
                         {deviceData.map((device) => (
                             <div key={device.name} className="flex items-center gap-2">
                                 <div className="w-3 h-3 rounded-full" style={{ backgroundColor: device.color }} />
-                                <span className="text-sm text-white/60">{device.name} ({device.value}%)</span>
+                                <span className="text-sm text-muted-foreground/60">{device.name} ({device.value}%)</span>
                             </div>
                         ))}
                     </div>
@@ -177,7 +177,7 @@ export default function AnalyticsPage() {
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.6 }}
-                    className="glass-card p-8 rounded-2xl border border-white/5"
+                    className="glass-card p-8 rounded-2xl border border-border bg-black/[0.02] dark:bg-white/[0.02]"
                 >
                     <h2 className="text-2xl font-bold mb-6">Referral Sources</h2>
                     <div className="space-y-4">
@@ -185,9 +185,9 @@ export default function AnalyticsPage() {
                             <div key={i}>
                                 <div className="flex items-center justify-between mb-2">
                                     <span className="text-sm font-bold">{source.source}</span>
-                                    <span className="text-sm text-white/40">{source.visitors.toLocaleString()} visitors</span>
+                                    <span className="text-sm text-muted-foreground/40">{source.visitors.toLocaleString()} visitors</span>
                                 </div>
-                                <div className="h-2 bg-white/5 rounded-full overflow-hidden">
+                                <div className="h-2 bg-black/5 dark:bg-white/5 rounded-full overflow-hidden">
                                     <motion.div
                                         initial={{ width: 0 }}
                                         animate={{ width: `${source.percentage}%` }}
@@ -206,25 +206,25 @@ export default function AnalyticsPage() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.7 }}
-                className="glass-card rounded-2xl border border-white/5 overflow-hidden"
+                className="glass-card rounded-2xl border border-border bg-black/[0.02] dark:bg-white/[0.02] overflow-hidden"
             >
-                <div className="p-8 border-b border-white/5">
+                <div className="p-8 border-b border-border">
                     <h2 className="text-2xl font-bold">Top Performing Pages</h2>
                 </div>
                 <table className="w-full text-left border-collapse">
                     <thead>
-                        <tr className="border-b border-white/5 bg-white/[0.01]">
-                            <th className="px-8 py-4 text-xs font-bold uppercase tracking-widest text-white/20">Page</th>
-                            <th className="px-8 py-4 text-xs font-bold uppercase tracking-widest text-white/20">Views</th>
-                            <th className="px-8 py-4 text-xs font-bold uppercase tracking-widest text-white/20">Avg. Time</th>
+                        <tr className="border-b border-border bg-black/[0.02] dark:bg-white/[0.02]">
+                            <th className="px-8 py-4 text-xs font-bold uppercase tracking-widest text-muted-foreground/20">Page</th>
+                            <th className="px-8 py-4 text-xs font-bold uppercase tracking-widest text-muted-foreground/20">Views</th>
+                            <th className="px-8 py-4 text-xs font-bold uppercase tracking-widest text-muted-foreground/20">Avg. Time</th>
                         </tr>
                     </thead>
                     <tbody>
                         {topPages.map((page, i) => (
-                            <tr key={i} className="border-b border-white/5 hover:bg-white/[0.03] transition-colors">
+                            <tr key={i} className="border-b border-border hover:bg-black/[0.03] dark:hover:bg-white/[0.03] transition-colors">
                                 <td className="px-8 py-6 font-mono text-sm">{page.page}</td>
                                 <td className="px-8 py-6 font-bold">{page.views.toLocaleString()}</td>
-                                <td className="px-8 py-6 text-white/60">{page.avgTime}</td>
+                                <td className="px-8 py-6 text-muted-foreground/60">{page.avgTime}</td>
                             </tr>
                         ))}
                     </tbody>

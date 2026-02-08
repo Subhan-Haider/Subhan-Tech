@@ -35,23 +35,23 @@ export function CommandPalette() {
     return (
         <AnimatePresence>
             {isOpen && (
-                <div className="fixed inset-0 z-[100] flex items-start justify-center pt-[15vh] px-4 backdrop-blur-sm bg-black/40">
+                <div className="fixed inset-0 z-[100] flex items-start justify-center pt-[15vh] px-4 backdrop-blur-sm bg-black/40 dark:bg-black/60">
                     <motion.div
                         initial={{ opacity: 0, scale: 0.95, y: -20 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.95, y: -20 }}
-                        className="w-full max-w-2xl glass-card rounded-2xl border border-white/10 shadow-2xl overflow-hidden"
+                        className="w-full max-w-2xl glass-card rounded-2xl shadow-2xl overflow-hidden"
                     >
-                        <div className="flex items-center px-4 py-3 border-b border-white/5">
+                        <div className="flex items-center px-4 py-3 border-b border-border">
                             <Search className="w-5 h-5 text-muted-foreground mr-3" />
                             <input
                                 autoFocus
                                 placeholder="Search across the neural hub... (Extensions, Apps, Links)"
-                                className="flex-1 bg-transparent border-none outline-none text-white text-sm placeholder:text-muted-foreground"
+                                className="flex-1 bg-transparent border-none outline-none text-foreground text-sm placeholder:text-muted-foreground"
                                 value={query}
                                 onChange={(e) => setQuery(e.target.value)}
                             />
-                            <div className="flex items-center gap-1 px-2 py-1 rounded bg-white/5 border border-white/5">
+                            <div className="flex items-center gap-1 px-2 py-1 rounded bg-black/5 dark:bg-white/5 border border-border">
                                 <span className="text-[10px] text-muted-foreground font-mono">ESC</span>
                             </div>
                         </div>
@@ -63,10 +63,10 @@ export function CommandPalette() {
                                         <button
                                             key={item.name}
                                             autoFocus={i === 0}
-                                            className="w-full flex items-center justify-between p-3 rounded-xl hover:bg-white/5 group transition-colors text-left"
+                                            className="w-full flex items-center justify-between p-3 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 group transition-colors text-left"
                                         >
                                             <div className="flex items-center gap-4">
-                                                <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center group-hover:bg-white/10 transition-colors">
+                                                <div className="w-8 h-8 rounded-lg bg-black/5 dark:bg-white/5 flex items-center justify-center group-hover:bg-black/10 dark:group-hover:bg-white/10 transition-colors">
                                                     {'icon' in item ? <item.icon className="w-4 h-4" /> : <Globe className="w-4 h-4" />}
                                                 </div>
                                                 <div>
@@ -76,20 +76,20 @@ export function CommandPalette() {
                                                     </p>
                                                 </div>
                                             </div>
-                                            <span className="text-[10px] uppercase tracking-widest text-white/20 font-bold px-2 py-1 rounded bg-white/5">
+                                            <span className="text-[10px] uppercase tracking-widest text-muted-foreground/30 font-bold px-2 py-1 rounded bg-black/5 dark:bg-white/5 border border-border">
                                                 {item.type}
                                             </span>
                                         </button>
                                     ))}
                                 </div>
                             ) : (
-                                <div className="p-8 text-center">
+                                <div className="p-8 text-center" >
                                     <p className="text-sm text-muted-foreground">No neural matches found.</p>
                                 </div>
                             )}
                         </div>
 
-                        <div className="px-4 py-3 bg-white/5 border-t border-white/5 flex items-center justify-between text-[10px] text-white/40 uppercase tracking-widest font-bold">
+                        <div className="px-4 py-3 bg-black/5 dark:bg-white/5 border-t border-border flex items-center justify-between text-[10px] text-muted-foreground/40 uppercase tracking-widest font-bold">
                             <div className="flex gap-4">
                                 <span>↑↓ Navigate</span>
                                 <span>↵ Select</span>
