@@ -12,7 +12,7 @@ import {
 import { auth } from "@/lib/firebase";
 
 export default function AdminLogin() {
-    const { user, loading, signInWithGoogle } = useAuth();
+    const { user, loading, isAdmin, signInWithGoogle } = useAuth();
     const router = useRouter();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -20,10 +20,10 @@ export default function AdminLogin() {
     const [successMessage, setSuccessMessage] = useState("");
 
     useEffect(() => {
-        if (!loading && user) {
+        if (!loading && user && isAdmin) {
             router.push("/admin");
         }
-    }, [user, loading, router]);
+    }, [user, loading, isAdmin, router]);
 
     const handleEmailLogin = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -76,12 +76,20 @@ export default function AdminLogin() {
                 <div className="glass-card p-10 rounded-3xl border border-border shadow-2xl relative overflow-hidden">
                     <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-blue-500" />
 
-                    <div className="mb-8 text-center">
-                        <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-primary/20">
-                            <ShieldCheck className="w-8 h-8 text-primary" />
+                    <div className="mb-10 text-center relative">
+                        <motion.div
+                            animate={{
+                                scale: [1, 1.05, 1],
+                                opacity: [0.5, 0.8, 0.5]
+                            }}
+                            transition={{ duration: 4, repeat: Infinity }}
+                            className="absolute inset-0 bg-primary/20 blur-3xl rounded-full"
+                        />
+                        <div className="w-20 h-20 bg-primary/10 rounded-[2rem] flex items-center justify-center mx-auto mb-6 border-2 border-primary/20 relative z-10 backdrop-blur-xl shadow-2xl shadow-primary/20">
+                            <ShieldCheck className="w-10 h-10 text-primary" />
                         </div>
-                        <h1 className="text-3xl font-bold tracking-tight mb-2">Admin Terminal</h1>
-                        <p className="text-muted-foreground/60 text-sm italic">&quot;Initialize secure session to access neural HQ&quot;</p>
+                        <h1 className="text-4xl font-black tracking-tighter mb-2 uppercase italic">Neural<span className="text-primary">.HQ</span></h1>
+                        <p className="text-muted-foreground/30 text-[9px] font-black uppercase tracking-[0.4em]">&quot;Decrypting session protocol...&quot;</p>
                     </div>
 
                     <form onSubmit={handleEmailLogin} className="space-y-4">
@@ -131,6 +139,13 @@ export default function AdminLogin() {
                             </div>
                         )}
 
+                        {user && !isAdmin && !loading && (
+                            <div className="bg-amber-500/10 border border-amber-500/20 p-3 rounded-xl flex items-center gap-3 text-amber-500 text-xs italic">
+                                <AlertCircle className="w-4 h-4 flex-shrink-0" />
+                                <span>Access Denied: Your account does not have administrative privileges.</span>
+                            </div>
+                        )}
+
                         {successMessage && (
                             <div className="bg-green-500/10 border border-green-500/20 p-3 rounded-xl flex items-center gap-3 text-green-500 text-xs">
                                 <AlertCircle className="w-4 h-4 flex-shrink-0" />
@@ -140,7 +155,7 @@ export default function AdminLogin() {
 
                         <button
                             type="submit"
-                            className="w-full bg-primary text-primary-foreground font-bold py-4 rounded-xl hover:opacity-90 transition-all flex items-center justify-center gap-3 shadow-lg shadow-primary/20"
+                            className="w-full bg-primary text-primary-foreground font-black py-4 rounded-2xl hover:opacity-90 active:scale-[0.98] transition-all flex items-center justify-center gap-3 shadow-xl shadow-primary/30 uppercase tracking-[0.2em] text-xs border border-white/10"
                         >
                             <LogIn className="w-5 h-5" />
                             Synchronize Access

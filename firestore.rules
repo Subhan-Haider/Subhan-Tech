@@ -3,10 +3,12 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     
-    // Helper function to check if the requester is the authorized administrator
+    // Helper function to check if the requester is an authorized administrator
     function isAdmin() {
-      return request.auth != null && 
-             request.auth.token.email == 'firebase-adminsdk-fbsvc@subahan-tech.iam.gserviceaccount.com';
+      return request.auth != null && (
+        request.auth.token.email == 'setupg98@gmail.com' ||
+        exists(/databases/$(database)/documents/admins/$(request.auth.token.email))
+      );
     }
 
     // Default rule: Lock down all documents by default

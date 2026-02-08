@@ -95,46 +95,46 @@ export function CRUDTable({
                 </button>
             </div>
 
-            <div className="flex flex-col md:flex-row gap-4 items-center justify-between p-4 rounded-2xl bg-black/[0.02] dark:bg-white/[0.02] border border-border">
-                <div className="flex items-center gap-4 bg-black/5 dark:bg-white/5 border border-border px-4 py-2 rounded-xl flex-1 group focus-within:border-primary transition-all w-full md:w-auto">
-                    <Search className="w-4 h-4 text-muted-foreground/40 group-focus-within:text-foreground/60" />
+            <div className="flex flex-col lg:flex-row gap-6 items-center justify-between p-6 rounded-3xl bg-black/[0.02] dark:bg-white/[0.03] border border-border backdrop-blur-sm shadow-xl shadow-black/5">
+                <div className="flex items-center gap-4 bg-black/5 dark:bg-white/5 border border-border px-5 py-3 rounded-2xl flex-1 group focus-within:border-primary/50 focus-within:bg-black/10 dark:focus-within:bg-white/10 transition-all w-full lg:w-auto">
+                    <Search className="w-5 h-5 text-muted-foreground/40 group-focus-within:text-primary transition-colors" />
                     <input
                         placeholder={`Search ${title.toLowerCase()}...`}
-                        className="bg-transparent border-none outline-none text-sm text-foreground placeholder:text-muted-foreground/40 w-full"
+                        className="bg-transparent border-none outline-none text-sm text-foreground placeholder:text-muted-foreground/40 w-full font-medium"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
                 </div>
-                <div className="flex gap-2 w-full md:w-auto">
-                    <button className="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-black/5 dark:bg-white/5 border border-border rounded-xl text-sm font-bold text-muted-foreground/60 hover:text-foreground transition-colors">
+                <div className="flex gap-3 w-full lg:w-auto">
+                    <button className="flex-1 lg:flex-none flex items-center justify-center gap-2 px-6 py-3 bg-black/5 dark:bg-white/5 border border-border rounded-2xl text-xs font-black uppercase tracking-[0.15em] text-muted-foreground/60 hover:text-foreground hover:bg-black/10 transition-all">
                         <Filter className="w-4 h-4" /> Filter
                     </button>
-                    <button className="flex-1 md:flex-none px-4 py-2 bg-black/5 dark:bg-white/5 border border-border rounded-xl text-sm font-bold text-muted-foreground/60 hover:text-foreground transition-colors">
+                    <button className="flex-1 lg:flex-none px-6 py-3 bg-black/5 dark:bg-white/5 border border-border rounded-2xl text-xs font-black uppercase tracking-[0.15em] text-muted-foreground/60 hover:text-foreground hover:bg-black/10 transition-all">
                         Export
                     </button>
                 </div>
             </div>
 
-            <div className="rounded-2xl border border-border bg-black/[0.01] dark:bg-white/[0.02] overflow-hidden">
+            <div className="rounded-3xl border border-border bg-black/[0.01] dark:bg-white/[0.01] overflow-hidden backdrop-blur-xl shadow-2xl">
                 <table className="w-full text-left border-collapse">
                     <thead>
-                        <tr className="border-b border-border bg-black/[0.02] dark:bg-white/[0.02]">
-                            <th className="px-6 py-4 text-xs font-bold uppercase tracking-widest text-muted-foreground/40">Name</th>
-                            <th className="px-6 py-4 text-xs font-bold uppercase tracking-widest text-muted-foreground/40">Details</th>
-                            <th className="px-6 py-4 text-xs font-bold uppercase tracking-widest text-muted-foreground/40">Status</th>
-                            <th className="px-6 py-4 text-xs font-bold uppercase tracking-widest text-muted-foreground/40 text-right">Actions</th>
+                        <tr className="border-b border-border bg-black/[0.04] dark:bg-white/[0.04]">
+                            <th className="px-8 py-5 text-[10px] font-black uppercase tracking-[0.25em] text-muted-foreground/30">Entry Name</th>
+                            <th className="px-8 py-5 text-[10px] font-black uppercase tracking-[0.25em] text-muted-foreground/30">Configuration Details</th>
+                            <th className="px-8 py-5 text-[10px] font-black uppercase tracking-[0.25em] text-muted-foreground/30">Status</th>
+                            <th className="px-8 py-5 text-[10px] font-black uppercase tracking-[0.25em] text-muted-foreground/30 text-right">Operations</th>
                         </tr>
                     </thead>
                     <tbody>
                         {filteredItems.map((item, i) => (
                             <motion.tr
                                 key={i}
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                transition={{ delay: i * 0.05 }}
-                                className="border-b border-border hover:bg-black/[0.03] dark:hover:bg-white/[0.03] transition-colors group"
+                                initial={{ opacity: 0, x: -10 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ delay: i * 0.03 }}
+                                className="border-b border-border hover:bg-primary/[0.02] dark:hover:bg-primary/[0.04] transition-all group/row"
                             >
-                                <td className="px-6 py-6">
+                                <td className="px-8 py-8">
                                     {editingIndex === i ? (
                                         <input
                                             type="text"
@@ -144,68 +144,71 @@ export function CRUDTable({
                                         />
                                     ) : (
                                         <div>
-                                            <p className="font-bold text-sm mb-1">{item.name}</p>
+                                            <p className="font-black text-base tracking-tight mb-2 group-hover/row:text-primary transition-colors">{item.name}</p>
                                             {item.category && (
-                                                <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground/40 px-2 py-0.5 rounded bg-black/5 dark:bg-white/5 border border-border">
+                                                <span className="text-[9px] font-black uppercase tracking-[0.15em] text-primary bg-primary/10 px-3 py-1 rounded-full border border-primary/10">
                                                     {item.category}
                                                 </span>
                                             )}
                                         </div>
                                     )}
                                 </td>
-                                <td className="px-6 py-6 max-w-md">
+                                <td className="px-8 py-8 max-w-md">
                                     {editingIndex === i ? (
                                         <input
                                             type="text"
-                                            className="w-full px-3 py-2 rounded-lg bg-black/5 dark:bg-white/10 border border-border focus:border-primary outline-none text-sm"
+                                            className="w-full px-4 py-2 rounded-xl bg-black/5 dark:bg-white/10 border border-border focus:border-primary outline-none text-sm"
                                             value={editData.description || editData.url}
                                             onChange={(e) => setEditData({ ...editData, description: e.target.value })}
                                         />
                                     ) : (
-                                        <p className="text-sm text-muted-foreground/40 line-clamp-1">{item.description || item.url}</p>
+                                        <p className="text-sm text-muted-foreground/60 font-medium leading-relaxed italic">&quot;{item.description || item.url}&quot;</p>
                                     )}
                                 </td>
-                                <td className="px-6 py-6 font-mono text-[10px]">
-                                    <div className="flex items-center gap-2">
-                                        <div className="w-1.5 h-1.5 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.5)]" />
-                                        <span className="text-green-500 font-bold tracking-widest uppercase">Live</span>
+                                <td className="px-8 py-8">
+                                    <div className="flex items-center gap-3">
+                                        <div className="relative">
+                                            <div className="w-2 h-2 rounded-full bg-green-500 animate-ping absolute inset-0" />
+                                            <div className="w-2 h-2 rounded-full bg-green-500 relative shadow-[0_0_10px_rgba(34,197,94,0.8)]" />
+                                        </div>
+                                        <span className="text-green-500 font-black text-[9px] tracking-[0.2em] uppercase">Operational</span>
                                     </div>
                                 </td>
-                                <td className="px-6 py-6 text-right">
+                                <td className="px-8 py-8 text-right">
                                     {editingIndex === i ? (
-                                        <div className="flex items-center justify-end gap-2">
+                                        <div className="flex items-center justify-end gap-3">
                                             <button
                                                 onClick={() => saveEdit(i)}
-                                                className="p-2 rounded-lg bg-green-500/10 hover:bg-green-500/20 transition-colors text-green-500"
+                                                className="p-3 rounded-xl bg-green-500/10 hover:bg-green-500 text-green-500 hover:text-white transition-all shadow-lg shadow-green-500/10"
                                             >
-                                                <Save className="w-4 h-4" />
+                                                <Save className="w-5 h-5" />
                                             </button>
                                             <button
                                                 onClick={cancelEdit}
-                                                className="p-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-colors text-muted-foreground/40 hover:text-foreground"
+                                                className="p-3 rounded-xl bg-black/5 dark:bg-white/5 hover:bg-black/20 dark:hover:bg-white/10 transition-all text-muted-foreground/40 hover:text-foreground"
                                             >
-                                                <X className="w-4 h-4" />
+                                                <X className="w-5 h-5" />
                                             </button>
                                         </div>
                                     ) : (
-                                        <div className="flex items-center justify-end gap-2">
+                                        <div className="flex items-center justify-end gap-3 opacity-0 group-hover/row:opacity-100 transition-all">
                                             <button
                                                 onClick={() => startEdit(i)}
-                                                className="p-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-colors text-muted-foreground/40 hover:text-foreground"
+                                                className="p-3 rounded-xl bg-black/5 dark:bg-white/5 hover:bg-primary hover:text-white transition-all text-muted-foreground/40 group-hover/row:text-muted-foreground"
                                             >
-                                                <Edit3 className="w-4 h-4" />
+                                                <Edit3 className="w-5 h-5" />
                                             </button>
                                             <button
                                                 onClick={() => handleDelete(i)}
-                                                className="p-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-colors text-muted-foreground/40 hover:text-red-500"
+                                                className="p-3 rounded-xl bg-black/5 dark:bg-white/5 hover:bg-destructive hover:text-white transition-all text-muted-foreground/40 group-hover/row:text-muted-foreground"
                                             >
-                                                <Trash2 className="w-4 h-4" />
+                                                <Trash2 className="w-5 h-5" />
                                             </button>
-                                            <a href={item.url} target="_blank" rel="noreferrer" className="p-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-colors text-muted-foreground/40 hover:text-foreground">
-                                                <Eye className="w-4 h-4" />
+                                            <a href={item.url} target="_blank" rel="noreferrer" className="p-3 rounded-xl bg-black/5 dark:bg-white/5 hover:bg-primary hover:text-white transition-all text-muted-foreground/40 group-hover/row:text-muted-foreground">
+                                                <Eye className="w-5 h-5" />
                                             </a>
-                                            <a href={item.url} target="_blank" rel="noreferrer" className="p-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-colors text-muted-foreground/40 hover:text-foreground">
-                                                <ExternalLink className="w-4 h-4" />
+                                            <a href={item.url} target="_blank" rel="noreferrer" className="p-3 rounded-xl bg-black/5 dark:bg-white/5 hover:bg-primary hover:text-white transition-all text-muted-foreground/40 group-hover/row:text-muted-foreground">
+                                                <ExternalLink className="w-5 h-5" />
                                             </a>
                                         </div>
                                     )}

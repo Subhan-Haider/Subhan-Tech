@@ -8,8 +8,9 @@ import {
     signInWithPopup,
     signOut as firebaseSignOut
 } from "firebase/auth";
-import { auth } from "@/lib/firebase";
+import { auth, db } from "@/lib/firebase";
 import { setCookie, deleteCookie } from "cookies-next";
+import { doc, getDoc } from "firebase/firestore";
 
 interface AuthContextType {
     user: User | null;
@@ -36,12 +37,26 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
             if (user) {
                 setUser(user);
-                // Check if user is admin
-                const adminEmail = process.env.NEXT_PUBLIC_FIREBASE_ADMIN_EMAIL;
-                setIsAdmin(user.email === adminEmail);
+
+                // 1. Check if user is fallback admin (from env)
+                const fallbackAdminEmail = process.env.NEXT_PUBLIC_FIREBASE_ADMIN_EMAIL;
+                let adminStatus = user.email === fallbackAdminEmail;
+
+                // 2. If not fallback, check Firestore 'admins' collection
+                if (!adminStatus && user.email) {
+                    try {
+                        const adminDoc = await getDoc(doc(db, "admins", user.email));
+                        if (adminDoc.exists()) {
+                            adminStatus = true;
+                        }
+                    } catch (error) {
+                        console.error("Error checking admin status:", error);
+                    }
+                }
+
+                setIsAdmin(adminStatus);
 
                 const token = await user.getIdToken();
-                // Use the token in an HttpOnly cookie or standard cookie for server-side auth
                 setCookie("admin-token", token, { maxAge: 60 * 60 * 24 * 7, path: "/" });
             } else {
                 setUser(null);
