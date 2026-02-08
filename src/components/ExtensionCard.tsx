@@ -23,11 +23,11 @@ export function ExtensionCard({ name, description, url, platform }: ExtensionCar
 
     return (
         <motion.div
-            whileHover={{ y: -8, scale: 1.02 }}
-            className="glass-card rounded-[2rem] p-8 relative overflow-hidden group border border-border hover:border-primary/20 transition-all"
+            whileHover={{ y: -5 }}
+            className="glass-card rounded-2xl p-6 relative overflow-hidden group border border-border hover:border-primary/20 transition-all shadow-sm"
         >
-            <div className="flex justify-between items-start mb-8 relative z-10">
-                <div className="p-4 rounded-2xl bg-black/5 dark:bg-white/5 border border-border group-hover:border-primary/20 group-hover:bg-primary/5 transition-all group-hover:rotate-6">
+            <div className="flex justify-between items-start mb-6 relative z-10">
+                <div className="p-3 rounded-xl bg-black/5 dark:bg-white/5 border border-border group-hover:bg-primary/5 transition-all">
                     <div className="text-muted-foreground group-hover:text-primary transition-colors">
                         {getIcon()}
                     </div>
@@ -36,30 +36,27 @@ export function ExtensionCard({ name, description, url, platform }: ExtensionCar
                     href={url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-3 rounded-xl bg-black/5 dark:bg-white/5 border border-border hover:bg-primary hover:text-white transition-all text-muted-foreground/40"
+                    className="p-2 rounded-lg bg-black/5 dark:bg-white/5 border border-border hover:bg-primary hover:text-white transition-all text-muted-foreground/40"
                 >
-                    <ExternalLink className="w-5 h-5" />
+                    <ExternalLink className="w-4 h-4" />
                 </a>
             </div>
 
             <div className="relative z-10">
-                <h3 className="text-2xl font-black tracking-tight mb-3 group-hover:text-primary transition-colors">{name}</h3>
-                <p className="text-muted-foreground/80 dark:text-muted-foreground/60 text-sm leading-relaxed mb-8">{description}</p>
+                <h3 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors">{name}</h3>
+                <p className="text-muted-foreground text-sm mb-6">{description}</p>
 
                 <div className="flex items-center justify-between">
-                    <span className="text-[10px] uppercase tracking-[0.2em] font-black text-primary bg-primary/10 px-4 py-1.5 rounded-full border border-primary/10">
-                        {platform} platform
+                    <span className="text-[10px] uppercase tracking-wider font-bold text-primary bg-primary/10 px-3 py-1 rounded-full border border-primary/10">
+                        {platform}
                     </span>
-                    <div className="flex -space-x-2">
+                    <div className="flex -space-x-1">
                         {[1, 2, 3].map(i => (
-                            <div key={i} className="w-6 h-6 rounded-full border-2 border-background bg-border" />
+                            <div key={i} className="w-5 h-5 rounded-full border-2 border-background bg-muted" />
                         ))}
                     </div>
                 </div>
             </div>
-
-            {/* Decorative subtle gradient */}
-            <div className="absolute -right-10 -bottom-10 w-40 h-40 bg-primary/5 rounded-full blur-[80px] group-hover:bg-primary/10 transition-colors" />
         </motion.div>
     );
 }

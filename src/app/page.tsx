@@ -35,12 +35,10 @@ export default function Home() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="text-6xl md:text-8xl font-black mb-6 tracking-tighter text-glow uppercase leading-tight"
+          className="text-6xl md:text-8xl font-bold mb-6 tracking-tight text-glow uppercase leading-tight"
         >
-          {SITE_CONFIG.name.split('').map((char, i) => (
-            <span key={i} className={i % 2 === 0 ? "text-foreground" : "text-foreground/20 dark:text-foreground/10"}>{char}</span>
-          ))}
-          <span className="text-foreground/20 dark:text-foreground/10">.TECH</span>
+          {SITE_CONFIG.name}
+          <span className="opacity-20">.TECH</span>
         </motion.h1>
 
         <motion.p
@@ -60,8 +58,8 @@ export default function Home() {
             <Package className="w-6 h-6 text-foreground" />
           </div>
           <div>
-            <h2 className="text-4xl font-black tracking-tight text-glow">Software & Apps</h2>
-            <p className="text-muted-foreground/80 dark:text-muted-foreground/60 text-sm font-medium tracking-wide">Standalone applications and experimental software.</p>
+            <h2 className="text-3xl font-bold tracking-tight text-glow">Software & Apps</h2>
+            <p className="text-muted-foreground text-sm">Standalone applications and experimental software.</p>
           </div>
         </div>
 
@@ -74,7 +72,7 @@ export default function Home() {
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
               whileHover={{ y: -5 }}
-              className="glass-card rounded-[2.5rem] p-8 border border-border relative overflow-hidden group hover:border-primary/20 transition-all shadow-xl shadow-black/[0.02]"
+              className="glass-card rounded-2xl p-6 border border-border relative overflow-hidden group hover:border-primary/20 transition-all shadow-sm"
             >
               <div className="flex justify-between items-start mb-6">
                 <div className="p-3 rounded-xl bg-black/5 dark:bg-white/5 border border-border group-hover:bg-primary/5 transition-colors">
@@ -84,9 +82,9 @@ export default function Home() {
                   {item.category}
                 </span>
               </div>
-              <h3 className="text-2xl font-black tracking-tight mb-2 group-hover:text-primary transition-colors">{item.name}</h3>
-              <p className="text-muted-foreground/80 dark:text-muted-foreground/60 text-sm mb-8 leading-relaxed line-clamp-2">{item.description}</p>
-              <a href={item.url} className="text-xs font-black uppercase tracking-[0.2em] text-muted-foreground/60 dark:text-muted-foreground/40 hover:text-primary transition-all inline-flex items-center gap-2 group/link border-b border-transparent hover:border-primary/40 pb-1">
+              <h3 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors">{item.name}</h3>
+              <p className="text-muted-foreground text-sm mb-6 line-clamp-2">{item.description}</p>
+              <a href={item.url} className="text-xs font-bold uppercase tracking-wider text-muted-foreground hover:text-primary transition-all inline-flex items-center gap-2 group/link">
                 Launch Application <Terminal className="w-3 h-3 group-hover/link:translate-x-1 transition-transform" />
               </a>
             </motion.div>
