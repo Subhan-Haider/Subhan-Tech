@@ -2,11 +2,11 @@
 
 import { motion } from "framer-motion";
 import {
-    Plus, Edit3, Trash2, Eye, ExternalLink,
-    Github, Globe, Star, GitFork, Code
+    Plus, Edit3, Trash2, ExternalLink,
+    Github, Globe, Star, GitFork, Code, Eye
 } from "lucide-react";
 import { useState } from "react";
-import Link from "next/link";
+
 
 interface Project {
     id: number;
@@ -259,8 +259,8 @@ export default function ProjectsManager() {
                                     <p className="text-sm text-white/60 mb-3">{project.description}</p>
                                     <div className="flex items-center gap-3">
                                         <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest ${project.status === "Live" ? "bg-green-500/20 text-green-500" :
-                                                project.status === "In Development" ? "bg-blue-500/20 text-blue-500" :
-                                                    "bg-white/10 text-white/40"
+                                            project.status === "In Development" ? "bg-blue-500/20 text-blue-500" :
+                                                "bg-white/10 text-white/40"
                                             }`}>
                                             {project.status}
                                         </span>
@@ -302,10 +302,20 @@ export default function ProjectsManager() {
                         <div className="p-4 bg-white/[0.02] flex items-center justify-between">
                             <div className="flex items-center gap-2">
                                 <a
+                                    href={project.liveUrl}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className="p-2 rounded-lg hover:bg-white/10 transition-colors text-white/40 hover:text-white"
+                                    title="View Live"
+                                >
+                                    <Eye className="w-4 h-4" />
+                                </a>
+                                <a
                                     href={project.githubUrl}
                                     target="_blank"
                                     rel="noreferrer"
                                     className="p-2 rounded-lg hover:bg-white/10 transition-colors text-white/40 hover:text-white"
+                                    title="GitHub Repository"
                                 >
                                     <Github className="w-4 h-4" />
                                 </a>
@@ -314,15 +324,17 @@ export default function ProjectsManager() {
                                     target="_blank"
                                     rel="noreferrer"
                                     className="p-2 rounded-lg hover:bg-white/10 transition-colors text-white/40 hover:text-white"
+                                    title="External Link"
                                 >
                                     <ExternalLink className="w-4 h-4" />
                                 </a>
-                                <button className="p-2 rounded-lg hover:bg-white/10 transition-colors text-white/40 hover:text-white">
+                                <button className="p-2 rounded-lg hover:bg-white/10 transition-colors text-white/40 hover:text-white" title="Edit">
                                     <Edit3 className="w-4 h-4" />
                                 </button>
                                 <button
                                     onClick={() => handleDelete(project.id)}
                                     className="p-2 rounded-lg hover:bg-white/10 transition-colors text-white/40 hover:text-red-500"
+                                    title="Delete"
                                 >
                                     <Trash2 className="w-4 h-4" />
                                 </button>
@@ -330,8 +342,8 @@ export default function ProjectsManager() {
                             <button
                                 onClick={() => toggleFeatured(project.id)}
                                 className={`px-4 py-2 rounded-lg text-sm font-bold transition-colors ${project.featured
-                                        ? "bg-yellow-500/20 text-yellow-500 hover:bg-yellow-500/30"
-                                        : "bg-white/5 text-white/60 hover:bg-white/10"
+                                    ? "bg-yellow-500/20 text-yellow-500 hover:bg-yellow-500/30"
+                                    : "bg-white/5 text-white/60 hover:bg-white/10"
                                     }`}
                             >
                                 {project.featured ? "Featured" : "Feature"}

@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import {
     Plus, Edit3, Trash2, Eye, FileText,
-    Calendar, Globe, Code
+    Globe
 } from "lucide-react";
 import { useState } from "react";
 
@@ -149,7 +149,7 @@ export default function PagesManager() {
                             <select
                                 className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-white/30 outline-none transition-all text-white"
                                 value={newPage.type}
-                                onChange={(e) => setNewPage({ ...newPage, type: e.target.value as any })}
+                                onChange={(e) => setNewPage({ ...newPage, type: e.target.value as Page['type'] })}
                             >
                                 <option value="Blog">Blog Post</option>
                                 <option value="Documentation">Documentation</option>
@@ -208,8 +208,8 @@ export default function PagesManager() {
                                 </td>
                                 <td className="px-6 py-6">
                                     <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest ${page.status === "Published" ? "bg-green-500/20 text-green-500" :
-                                            page.status === "Draft" ? "bg-yellow-500/20 text-yellow-500" :
-                                                "bg-white/10 text-white/40"
+                                        page.status === "Draft" ? "bg-yellow-500/20 text-yellow-500" :
+                                            "bg-white/10 text-white/40"
                                         }`}>
                                         {page.status}
                                     </span>
@@ -219,6 +219,14 @@ export default function PagesManager() {
                                 </td>
                                 <td className="px-6 py-6 text-right">
                                     <div className="flex items-center justify-end gap-2">
+                                        <a
+                                            href={page.slug}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="p-2 rounded-lg hover:bg-white/10 transition-colors text-white/40 hover:text-white"
+                                        >
+                                            <Eye className="w-4 h-4" />
+                                        </a>
                                         <button className="p-2 rounded-lg hover:bg-white/10 transition-colors text-white/40 hover:text-white">
                                             <Edit3 className="w-4 h-4" />
                                         </button>

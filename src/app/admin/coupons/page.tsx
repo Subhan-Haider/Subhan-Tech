@@ -2,7 +2,7 @@
 
 import { CRUDTable } from "@/components/admin/CRUDTable";
 import { useState } from "react";
-import { Ticket, Percent, Zap, Shield, Gift } from "lucide-react";
+import { Ticket, Percent, Zap, Shield } from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function CouponsManager() {
@@ -50,7 +50,7 @@ export default function CouponsManager() {
                 subtitle="Generate and manage discount codes for your neural assets."
                 items={coupons}
                 typeLabel="Coupon"
-                onAdd={(item) => setCoupons([...coupons, item])}
+                onAdd={(item: any) => setCoupons([...coupons, item])}
                 onDelete={(i) => setCoupons(coupons.filter((_, idx) => idx !== i))}
             />
         </div>

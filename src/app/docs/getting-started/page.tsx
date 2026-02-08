@@ -131,9 +131,9 @@ export default function GettingStartedPage() {
                     {/* Quick Start */}
                     <section className="glass-card p-8 rounded-2xl border border-white/5">
                         <h2 className="text-3xl font-bold mb-4">Quick Start Example</h2>
-                        <p className="text-white/60 mb-4">Here's a simple example to get you started:</p>
+                        <p className="text-white/60 mb-4">Here&apos;s a simple example to get you started:</p>
                         <div className="bg-black/40 rounded-xl p-6 border border-white/10 font-mono text-sm overflow-x-auto">
-                            <code className="text-purple-400">import</code> <code className="text-white">{'{ NeuralClient }'}</code> <code className="text-purple-400">from</code> <code className="text-yellow-400">'@neural/sdk'</code>;
+                            <code className="text-purple-400">import</code> <code className="text-white">{'{ NeuralClient }'}</code> <code className="text-purple-400">from</code> <code className="text-yellow-400">{`'@neural/sdk'`}</code>;
                             <br /><br />
                             <code className="text-purple-400">const</code> <code className="text-white">client</code> = <code className="text-purple-400">new</code> <code className="text-blue-400">NeuralClient</code>({'{'}
                             <br />
@@ -141,7 +141,7 @@ export default function GettingStartedPage() {
                             <br />
                             {'}'});
                             <br /><br />
-                            <code className="text-purple-400">const</code> <code className="text-white">data</code> = <code className="text-purple-400">await</code> <code className="text-white">client</code>.<code className="text-blue-400">fetch</code>(<code className="text-yellow-400">'/extensions'</code>);
+                            <code className="text-purple-400">const</code> <code className="text-white">data</code> = <code className="text-purple-400">await</code> <code className="text-white">client</code>.<code className="text-blue-400">fetch</code>(<code className="text-yellow-400">{`'/extensions'`}</code>);
                             <br />
                             <code className="text-white">console</code>.<code className="text-blue-400">log</code>(data);
                         </div>

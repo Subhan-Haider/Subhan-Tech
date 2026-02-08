@@ -2,11 +2,11 @@
 
 import { motion } from "framer-motion";
 import {
-    BarChart3, Users, Eye, Clock, TrendingUp,
+    Users, Eye, Clock, TrendingUp,
     Download, Calendar, Filter
 } from "lucide-react";
 import {
-    LineChart, Line, BarChart, Bar, PieChart, Pie, Cell,
+    LineChart, Line, PieChart, Pie, Cell,
     XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend
 } from 'recharts';
 
@@ -48,7 +48,7 @@ export default function AnalyticsPage() {
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                 <div>
                     <h1 className="text-4xl font-bold tracking-tight mb-2">Analytics Dashboard</h1>
-                    <p className="text-white/40">Real-time insights into your platform's performance and user behavior.</p>
+                    <p className="text-white/40">Real-time insights into your platform&apos;s performance and user behavior.</p>
                 </div>
                 <div className="flex gap-3">
                     <button className="flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/5 rounded-xl text-sm font-bold hover:bg-white/10 transition-colors">
@@ -110,8 +110,8 @@ export default function AnalyticsPage() {
                     <ResponsiveContainer width="100%" height="100%">
                         <LineChart data={trafficData}>
                             <CartesianGrid strokeDasharray="3 3" stroke="#ffffff10" />
-                            <XAxis dataKey="date" stroke="#ffffff40" fontSize={12} />
-                            <YAxis stroke="#ffffff40" fontSize={12} />
+                            <XAxis dataKey="date" stroke="#ffffff40" tick={{ fontSize: 12 }} />
+                            <YAxis stroke="#ffffff40" tick={{ fontSize: 12 }} />
                             <Tooltip
                                 contentStyle={{
                                     backgroundColor: '#111',

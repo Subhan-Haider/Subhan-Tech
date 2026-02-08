@@ -6,7 +6,7 @@ import {
     Shield, CheckCircle, AlertCircle
 } from "lucide-react";
 import { useState } from "react";
-import Link from "next/link";
+
 
 interface PrivacyPage {
     id: number;
@@ -181,8 +181,8 @@ export default function PrivacyPagesManager() {
                                     <Shield className="w-5 h-5 text-blue-400" />
                                     <h3 className="text-xl font-bold">{page.extensionName}</h3>
                                     <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest ${page.status === "Published" ? "bg-green-500/20 text-green-500" :
-                                            page.status === "Draft" ? "bg-yellow-500/20 text-yellow-500" :
-                                                "bg-red-500/20 text-red-500"
+                                        page.status === "Draft" ? "bg-yellow-500/20 text-yellow-500" :
+                                            "bg-red-500/20 text-red-500"
                                         }`}>
                                         {page.status}
                                     </span>

@@ -41,8 +41,8 @@ export default function AboutPage() {
                     >
                         <h2 className="text-3xl font-bold mb-6 text-glow">The Mission</h2>
                         <p className="text-white/60 leading-relaxed mb-4">
-                            At Subhan.tech, we're pioneering the intersection of neural design and tactical operations.
-                            Our mission is to create software that doesn't just function—it thinks, adapts, and evolves.
+                            At Subhan.tech, we&apos;re pioneering the intersection of neural design and tactical operations.
+                            Our mission is to create software that doesn&apos;t just function—it thinks, adapts, and evolves.
                         </p>
                         <p className="text-white/60 leading-relaxed">
                             From browser extensions that enhance productivity to full-scale applications that redefine
@@ -63,7 +63,7 @@ export default function AboutPage() {
                         </p>
                         <p className="text-white/60 leading-relaxed">
                             Through modular architecture, real-time intelligence, and a commitment to open-source principles,
-                            we're building tools that empower developers, creators, and innovators worldwide.
+                            we&apos;re building tools that empower developers, creators, and innovators worldwide.
                         </p>
                     </motion.div>
                 </div>
@@ -112,8 +112,8 @@ export default function AboutPage() {
                 >
                     <h2 className="text-3xl font-bold mb-4 text-glow">Join the Neural Network</h2>
                     <p className="text-white/60 mb-8 max-w-2xl mx-auto">
-                        Whether you're looking to collaborate, contribute to open-source projects, or explore custom solutions,
-                        we're always open to connecting with like-minded innovators.
+                        Whether you&apos;re looking to collaborate, contribute to open-source projects, or explore custom solutions,
+                        we&apos;re always open to connecting with like-minded innovators.
                     </p>
                     <div className="flex flex-wrap justify-center gap-4">
                         <Link href="/contact" className="px-8 py-3 bg-white text-black font-bold rounded-xl hover:bg-white/90 transition-all">

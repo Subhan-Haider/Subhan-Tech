@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import { Folder, Star, GitFork, ExternalLink, Calendar } from "lucide-react";
+import { Folder, Star, GitFork, ExternalLink } from "lucide-react";
 import Link from "next/link";
 
 const projects = [
@@ -152,7 +152,7 @@ export default function ProjectsPage() {
                 >
                     <h2 className="text-3xl font-bold mb-4 text-glow">Have an Idea?</h2>
                     <p className="text-white/60 mb-8 max-w-2xl mx-auto">
-                        Open to collaborations, contributions, and custom project development. Let's build something amazing.
+                        Open to collaborations, contributions, and custom project development. Let&apos;s build something amazing.
                     </p>
                     <div className="flex flex-wrap justify-center gap-4">
                         <Link href="/contact" className="px-8 py-3 bg-white text-black font-bold rounded-xl hover:bg-white/90 transition-all">

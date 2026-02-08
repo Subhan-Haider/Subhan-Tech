@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Plus } from "lucide-react";
+import { X } from "lucide-react";
 import { useState } from "react";
 
 interface AddItemModalProps {

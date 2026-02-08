@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import {
     Settings, Bell, Shield, Database,
-    Globe, Mail, Key, Users, Save
+    Globe, Mail, Users, Save
 } from "lucide-react";
 import { useState } from "react";
 

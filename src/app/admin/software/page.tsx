@@ -3,6 +3,14 @@
 import { CRUDTable } from "@/components/admin/CRUDTable";
 import { SOFTWARE } from "@/data/config";
 
+interface SoftwareItem {
+    name: string;
+    description?: string;
+    url?: string;
+    category?: string;
+    [key: string]: string | number | boolean | undefined;
+}
+
 export default function AdminSoftware() {
     const handleAdd = (newItem: any) => {
         console.log("Adding new software:", newItem);
@@ -24,7 +32,7 @@ export default function AdminSoftware() {
         <CRUDTable
             title="Software Assets"
             subtitle="Manage your standalone applications and system tools."
-            items={SOFTWARE}
+            items={SOFTWARE as any[]}
             typeLabel="Software"
             onAdd={handleAdd}
             onEdit={handleEdit}

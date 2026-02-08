@@ -32,7 +32,7 @@ export default function ContactPage() {
                 >
                     <h1 className="text-6xl font-bold mb-6 text-glow">Get In Touch</h1>
                     <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-                        Have a project in mind? Let's build something extraordinary together.
+                        Have a project in mind? Let&apos;s build something extraordinary together.
                     </p>
                 </motion.div>
 

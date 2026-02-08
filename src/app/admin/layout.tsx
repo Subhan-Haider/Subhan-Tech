@@ -1,9 +1,9 @@
 "use client";
 
-import { motion } from "framer-motion";
+
 import {
     LayoutDashboard, Package, Code2, Zap, Globe,
-    Settings, Bell, Search, User, LogOut, ChevronRight,
+    Settings, Bell, Search, User, LogOut,
     BarChart3, Link as LinkIcon, FileText, Shield, FolderGit2,
     Ticket, Activity
 } from "lucide-react";

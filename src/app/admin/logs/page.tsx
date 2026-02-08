@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Activity, Terminal, Shield, AlertTriangle, CheckCircle2, Search, Filter, Download } from "lucide-react";
+import { Terminal, Shield, AlertTriangle, CheckCircle2, Search, Filter, Download } from "lucide-react";
 import { useState } from "react";
 
 const INITIAL_LOGS = [
@@ -60,18 +60,18 @@ export default function AdminLogs() {
                             className="flex items-start gap-4 p-4 rounded-xl hover:bg-white/[0.03] transition-colors border border-transparent hover:border-white/5 group"
                         >
                             <div className={`p-2 rounded-lg ${log.type === 'info' ? 'bg-blue-500/10 text-blue-500' :
-                                    log.type === 'success' ? 'bg-green-500/10 text-green-500' :
-                                        log.type === 'warning' ? 'bg-yellow-500/10 text-yellow-500' :
-                                            'bg-red-500/10 text-red-500'
+                                log.type === 'success' ? 'bg-green-500/10 text-green-500' :
+                                    log.type === 'warning' ? 'bg-yellow-500/10 text-yellow-500' :
+                                        'bg-red-500/10 text-red-500'
                                 }`}>
                                 <log.icon className="w-4 h-4" />
                             </div>
                             <div className="flex-1">
                                 <div className="flex items-center justify-between mb-1">
                                     <span className={`text-[10px] font-bold uppercase tracking-widest ${log.type === 'info' ? 'text-blue-500' :
-                                            log.type === 'success' ? 'text-green-500' :
-                                                log.type === 'warning' ? 'text-yellow-500' :
-                                                    'text-red-500'
+                                        log.type === 'success' ? 'text-green-500' :
+                                            log.type === 'warning' ? 'text-yellow-500' :
+                                                'text-red-500'
                                         }`}>{log.type}</span>
                                     <span className="text-[10px] text-white/20 font-bold">{log.timestamp}</span>
                                 </div>

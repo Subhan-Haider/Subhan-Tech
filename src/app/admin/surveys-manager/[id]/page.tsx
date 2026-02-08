@@ -1,12 +1,12 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useState } from "react";
-import { useParams, useRouter } from "next/navigation";
+
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import {
     ArrowLeft, Users, Calendar, Download,
-    PieChart as PieChartIcon, BarChart3
+    BarChart3
 } from "lucide-react";
 import {
     PieChart, Pie, Cell, BarChart, Bar,
@@ -71,7 +71,6 @@ const surveyData = {
 };
 
 export default function SurveyResults() {
-    const router = useRouter();
 
     return (
         <div className="space-y-10">
@@ -129,8 +128,8 @@ export default function SurveyResults() {
                     <ResponsiveContainer width="100%" height="100%">
                         <BarChart data={surveyData.questions[0].responses}>
                             <CartesianGrid strokeDasharray="3 3" stroke="#ffffff10" />
-                            <XAxis dataKey="rating" stroke="#ffffff40" fontSize={12} />
-                            <YAxis stroke="#ffffff40" fontSize={12} />
+                            <XAxis dataKey="rating" stroke="#ffffff40" tick={{ fontSize: 12 }} />
+                            <YAxis stroke="#ffffff40" tick={{ fontSize: 12 }} />
                             <Tooltip
                                 contentStyle={{
                                     backgroundColor: '#111',
@@ -145,8 +144,8 @@ export default function SurveyResults() {
                 <div className="mt-6 p-4 rounded-xl bg-blue-500/10 border border-blue-500/20">
                     <p className="text-sm text-blue-400 font-bold">
                         Average Rating: {(
-                            surveyData.questions[0].responses.reduce((acc, r) => acc + r.rating * r.count, 0) /
-                            surveyData.questions[0].responses.reduce((acc, r) => acc + r.count, 0)
+                            (surveyData.questions[0].responses as any[]).reduce((acc, r) => acc + r.rating * r.count, 0) /
+                            (surveyData.questions[0].responses as any[]).reduce((acc, r) => acc + r.count, 0)
                         ).toFixed(1)} / 5.0
                     </p>
                 </div>
@@ -174,7 +173,7 @@ export default function SurveyResults() {
                                     dataKey="count"
                                     label
                                 >
-                                    {surveyData.questions[1].responses.map((entry, index) => (
+                                    {(surveyData.questions[1].responses as any[]).map((entry, index) => (
                                         <Cell key={`cell-${index}`} fill={entry.color} />
                                     ))}
                                 </Pie>
@@ -189,7 +188,7 @@ export default function SurveyResults() {
                         </ResponsiveContainer>
                     </div>
                     <div className="space-y-3">
-                        {surveyData.questions[1].responses.map((item, i) => (
+                        {(surveyData.questions[1].responses as any[]).map((item, i) => (
                             <div key={i} className="p-4 rounded-xl bg-white/5">
                                 <div className="flex items-center justify-between mb-2">
                                     <div className="flex items-center gap-2">
@@ -222,7 +221,7 @@ export default function SurveyResults() {
             >
                 <h2 className="text-2xl font-bold mb-6">{surveyData.questions[2].question}</h2>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-                    {surveyData.questions[2].responses.map((item, i) => (
+                    {(surveyData.questions[2].responses as any[]).map((item, i) => (
                         <div key={i} className="p-6 rounded-xl bg-white/5 text-center">
                             <p className="text-sm text-white/40 mb-2">{item.score}</p>
                             <p className="text-4xl font-bold mb-2">{item.count}</p>

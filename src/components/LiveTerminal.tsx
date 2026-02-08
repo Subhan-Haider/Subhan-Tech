@@ -1,7 +1,7 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
-import { Terminal as TerminalIcon, X, ChevronRight, Minimize2 } from "lucide-react";
+import { motion } from "framer-motion";
+import { Terminal as TerminalIcon, Minimize2 } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 
 const INITIAL_LINES = [

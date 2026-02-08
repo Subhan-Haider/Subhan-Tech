@@ -7,7 +7,7 @@ import {
     ChevronRight, Sparkles
 } from "lucide-react";
 import {
-    LineChart, Line, XAxis, YAxis, CartesianGrid,
+    XAxis, CartesianGrid,
     Tooltip, ResponsiveContainer, AreaChart, Area
 } from 'recharts';
 
@@ -121,7 +121,7 @@ export default function AdminOverview() {
                         ].map((item, i) => (
                             <div key={i} className="flex items-center gap-4">
                                 <div className={`w-2 h-2 rounded-full ${item.status === "success" ? "bg-green-500" :
-                                        item.status === "warning" ? "bg-yellow-500" : "bg-blue-500"
+                                    item.status === "warning" ? "bg-yellow-500" : "bg-blue-500"
                                     }`} />
                                 <div className="flex-1">
                                     <p className="text-sm font-bold leading-none mb-1">{item.action}</p>

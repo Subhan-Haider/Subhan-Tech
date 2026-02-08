@@ -2,9 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, Command, Globe, Code2, Terminal, Zap, X } from "lucide-react";
+import { Search, Command, Globe } from "lucide-react";
 import { EXTENSIONS, SOFTWARE, WEBSITES, TOOLS } from "@/data/config";
-import Link from "next/link";
 
 export function CommandPalette() {
     const [isOpen, setIsOpen] = useState(false);

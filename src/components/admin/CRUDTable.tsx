@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import {
     Search, Plus, Filter, Edit3, Trash2,
-    MoreVertical, ExternalLink, Save, X
+    ExternalLink, Save, X, Eye
 } from "lucide-react";
 import { useState } from "react";
 import { AddItemModal } from "./AddItemModal";
@@ -24,6 +24,7 @@ interface CRUDTableProps {
     onAdd?: (item: any) => void;
     onEdit?: (index: number, item: any) => void;
     onDelete?: (index: number) => void;
+    onView?: (item: Item) => void;
 }
 
 export function CRUDTable({
@@ -36,7 +37,7 @@ export function CRUDTable({
     onDelete
 }: CRUDTableProps) {
     const [searchTerm, setSearchTerm] = useState("");
-    const [items, setItems] = useState(initialItems);
+    const [items, setItems] = useState<Item[]>(initialItems);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingIndex, setEditingIndex] = useState<number | null>(null);
     const [editData, setEditData] = useState<any>({});
@@ -200,6 +201,9 @@ export function CRUDTable({
                                             >
                                                 <Trash2 className="w-4 h-4" />
                                             </button>
+                                            <a href={item.url} target="_blank" rel="noreferrer" className="p-2 rounded-lg hover:bg-white/10 transition-colors text-white/40 hover:text-white">
+                                                <Eye className="w-4 h-4" />
+                                            </a>
                                             <a href={item.url} target="_blank" rel="noreferrer" className="p-2 rounded-lg hover:bg-white/10 transition-colors text-white/40 hover:text-white">
                                                 <ExternalLink className="w-4 h-4" />
                                             </a>

@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Search, Settings, User, Hexagon } from "lucide-react";
+import { Search, Settings, Hexagon } from "lucide-react";
 import Link from "next/link";
 
 export function Navbar() {

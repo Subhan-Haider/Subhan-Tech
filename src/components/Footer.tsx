@@ -1,7 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Github, Twitter, Mail, ExternalLink } from "lucide-react";
+import { Github, Twitter, Mail } from "lucide-react";
 import Link from "next/link";
 
 export function Footer() {

@@ -164,7 +164,7 @@ export default function DocsPage() {
                             Latest updates and version history
                         </p>
                         <a href="#" className="text-sm font-bold text-white/60 hover:text-white transition-colors">
-                            See What's New →
+                            See What&apos;s New →
                         </a>
                     </div>
                 </motion.div>
