@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import {
     Users, UserPlus, Trash2, ShieldCheck,
-    Mail, Calendar, LogOut
+    Mail, Calendar
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { db } from "@/lib/firebase";
@@ -15,7 +15,7 @@ import { useAuth } from "@/context/AuthContext";
 
 interface AdminUser {
     email: string;
-    addedAt: any;
+    addedAt: Timestamp;
     addedBy: string;
     role: string;
 }

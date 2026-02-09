@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Upload, CheckCircle2, Loader2, FileIcon } from "lucide-react";
+import { X, Upload, CheckCircle2, Loader2 } from "lucide-react";
 import { useState, useRef } from "react";
 import { storage } from "@/lib/firebase";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";

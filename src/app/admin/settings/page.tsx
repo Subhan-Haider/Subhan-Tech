@@ -1,10 +1,9 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import {
-    Settings, Bell, Shield, Database,
-    Globe, Mail, Users, Save, Lock,
-    AlertTriangle, Activity, Terminal, ExternalLink
+    Settings, Bell, Save, Lock,
+    AlertTriangle, Terminal
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { systemService, SystemConfig } from "@/lib/services/system";
@@ -17,17 +16,14 @@ export default function SettingsPage() {
         globalNotice: ""
     });
     const [auditLogs, setAuditLogs] = useState<AuditLog[]>([]);
-    const [loading, setLoading] = useState(true);
 
     const fetchData = async () => {
-        setLoading(true);
         const [c, logs] = await Promise.all([
             systemService.getConfig(),
             auditService.getRecent(10)
         ]);
         setConfig(c);
         setAuditLogs(logs);
-        setLoading(false);
     };
 
     useEffect(() => {

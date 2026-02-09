@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import {
-    Plus, Edit3, Trash2, Eye, FileText,
+    Plus, Trash2, FileText,
     Shield, CheckCircle, AlertCircle, Link,
     FileEdit, X, Save, ExternalLink, Globe
 } from "lucide-react";

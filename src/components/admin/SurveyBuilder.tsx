@@ -15,7 +15,7 @@ interface SurveyBuilderProps {
     onCancel: () => void;
 }
 
-const QUESTION_TYPES: { type: QuestionType, icon: any, label: string }[] = [
+const QUESTION_TYPES: { type: QuestionType, icon: React.ElementType, label: string }[] = [
     { type: "text", icon: AlignLeft, label: "Text Input" },
     { type: "multiple-choice", icon: CircleDot, label: "Multiple Choice" },
     { type: "yes-no", icon: Type, label: "Yes / No" },

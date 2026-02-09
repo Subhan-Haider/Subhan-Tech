@@ -1,8 +1,7 @@
 import { productService } from "@/lib/services/products";
 import { notFound } from "next/navigation";
-import { CheckCircle, Zap, ArrowRight, MessageSquare, ExternalLink } from "lucide-react";
+import { CheckCircle, Zap, ArrowRight, MessageSquare } from "lucide-react";
 import Link from "next/link";
-import { motion } from "framer-motion";
 
 export default async function SuccessPage({ params }: { params: { id: string } }) {
     const product = await productService.getById(params.id);

@@ -2,8 +2,8 @@ export async function checkLink(url: string): Promise<{ ok: boolean, status: num
     try {
         const response = await fetch(url, { method: "HEAD", cache: "no-store" });
         return { ok: response.ok, status: response.status };
-    } catch (error: any) {
-        return { ok: false, status: 0, error: error.message };
+    } catch (error: unknown) {
+        return { ok: false, status: 0, error: (error as Error).message };
     }
 }
 

@@ -1,12 +1,12 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { surveyService, Survey, Question } from "@/lib/services/surveys";
+import { surveyService, Survey } from "@/lib/services/surveys";
 import { extensionService, ExtensionProfile } from "@/lib/services/extensions";
 import { motion, AnimatePresence } from "framer-motion";
 import {
     ChevronRight, CheckCircle2, Star,
-    ArrowRight, Loader2, Info
+    ArrowRight, Loader2
 } from "lucide-react";
 
 export default function PublicSurveyPage({ params }: { params: { id: string } }) {
@@ -14,7 +14,7 @@ export default function PublicSurveyPage({ params }: { params: { id: string } })
     const [extension, setExtension] = useState<ExtensionProfile | null>(null);
     const [loading, setLoading] = useState(true);
     const [step, setStep] = useState(0); // 0 = intro, 1+ = questions, last = thank you
-    const [answers, setAnswers] = useState<Record<string, any>>({});
+    const [answers, setAnswers] = useState<Record<string, string | number>>({});
     const [submitted, setSubmitted] = useState(false);
 
     useEffect(() => {
@@ -156,8 +156,8 @@ export default function PublicSurveyPage({ params }: { params: { id: string } })
                                                 handleNext();
                                             }}
                                             className={`w-full text-left p-6 rounded-2xl border transition-all text-sm font-bold flex items-center justify-between group ${answers[currentQuestion.id] === opt
-                                                    ? 'bg-primary border-primary text-primary-foreground'
-                                                    : 'glass-card border-border hover:border-primary/50'
+                                                ? 'bg-primary border-primary text-primary-foreground'
+                                                : 'glass-card border-border hover:border-primary/50'
                                                 }`}
                                         >
                                             {opt}
@@ -193,11 +193,11 @@ export default function PublicSurveyPage({ params }: { params: { id: string } })
                                                             setTimeout(handleNext, 300);
                                                         }}
                                                         className={`w-16 h-16 rounded-2xl border flex items-center justify-center transition-all ${answers[currentQuestion.id] === val
-                                                                ? 'bg-primary border-primary text-primary-foreground scale-110 shadow-lg shadow-primary/20'
-                                                                : 'glass-card border-border hover:border-primary/50 scale-100'
+                                                            ? 'bg-primary border-primary text-primary-foreground scale-110 shadow-lg shadow-primary/20'
+                                                            : 'glass-card border-border hover:border-primary/50 scale-100'
                                                             }`}
                                                     >
-                                                        <Star className={`w-8 h-8 ${answers[currentQuestion.id] >= val ? 'fill-current' : ''}`} />
+                                                        <Star className={`w-8 h-8 ${(answers[currentQuestion.id] as number) >= val ? 'fill-current' : ''}`} />
                                                     </button>
                                                 ))}
                                             </div>

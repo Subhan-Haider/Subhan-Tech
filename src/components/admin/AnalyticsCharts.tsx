@@ -2,21 +2,20 @@
 
 import {
     LineChart, Line, XAxis, YAxis, CartesianGrid,
-    Tooltip, ResponsiveContainer, BarChart, Bar,
+    Tooltip, ResponsiveContainer,
     PieChart, Pie, Cell, Legend
 } from 'recharts';
 import { motion } from "framer-motion";
 
 interface AnalyticsChartsProps {
-    surveyData: any[];
-    redirectData: any[];
+    redirectData: { createdAt: string; clickCount: number }[];
 }
 
 const COLORS = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'];
 
-export function AnalyticsCharts({ surveyData, redirectData }: AnalyticsChartsProps) {
+export function AnalyticsCharts({ redirectData }: AnalyticsChartsProps) {
     // Process redirect data for clicks by date
-    const clicksByDate = redirectData.reduce((acc: any, curr: any) => {
+    const clicksByDate = redirectData.reduce((acc: Record<string, number>, curr) => {
         const date = new Date(curr.createdAt).toLocaleDateString();
         acc[date] = (acc[date] || 0) + curr.clickCount;
         return acc;
