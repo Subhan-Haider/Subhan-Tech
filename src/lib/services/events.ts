@@ -8,7 +8,7 @@ export interface SystemEvent {
     productName: string;
     userAgent?: string;
     timestamp: string;
-    metadata?: any;
+    metadata?: Record<string, unknown>;
 }
 
 const COLLECTION = "system_events";

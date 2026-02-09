@@ -37,7 +37,7 @@ export interface SurveyResponse {
     id?: string;
     surveyId: string;
     extensionId: string;
-    answers: Record<string, any>;
+    answers: Record<string, unknown>;
     timestamp: string;
     metadata: {
         userAgent: string;

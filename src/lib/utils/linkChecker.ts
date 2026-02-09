@@ -7,7 +7,7 @@ export async function checkLink(url: string): Promise<{ ok: boolean, status: num
     }
 }
 
-export async function checkAssetManifest(productId: string, assets: any[]): Promise<{ productId: string, results: any[] }> {
+export async function checkAssetManifest(productId: string, assets: { url: string; id: string; label: string }[]): Promise<{ productId: string, results: unknown[] }> {
     const results = await Promise.all(assets.map(async (asset) => {
         const result = await checkLink(asset.url);
         return { assetId: asset.id, label: asset.label, ...result };

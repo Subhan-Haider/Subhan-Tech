@@ -3,8 +3,7 @@
 import { useState } from "react"
 import { LegalPage } from "@/lib/services/legal"
 import {
-    Save, Eye, X, FileText,
-    Globe, Shield, Layout, Mail, Building
+    Save, Globe, Mail, Building
 } from "lucide-react"
 
 interface LegalPageBuilderProps {

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Product, ProductType, ProductStatus, AssetType, ProductAsset } from "@/lib/services/products";
 import {
-    Save, Plus, Trash2, Globe, Package,
+    Save, Plus, Trash2,
     Code2, Layout, LinkIcon,
     Upload, Settings2, Info,
     Monitor,
@@ -21,7 +21,7 @@ export function ProductBuilder({ initialProduct, onSave, onCancel }: ProductBuil
     const [product, setProduct] = useState<Partial<Product>>(initialProduct);
     const [activeSection, setActiveSection] = useState<"general" | "type-specific" | "assets" | "media" | "legal">("general");
 
-    const updateMeta = (updates: any) => {
+    const updateMeta = (updates: Partial<NonNullable<Product["meta"]>>) => {
         setProduct({
             ...product,
             meta: { ...(product.meta || {}), ...updates }
@@ -267,7 +267,7 @@ export function ProductBuilder({ initialProduct, onSave, onCancel }: ProductBuil
                                                         onClick={() => {
                                                             const current = product.meta?.platforms || [];
                                                             const next = current.includes(p as any) ? current.filter(x => x !== p) : [...current, p];
-                                                            updateMeta({ platforms: next });
+                                                            updateMeta({ platforms: next as any });
                                                         }}
                                                         className={`px-4 py-2 rounded-xl border text-[9px] font-black uppercase tracking-widest transition-all ${product.meta?.platforms?.includes(p as any) ? 'bg-primary text-white border-primary' : 'bg-black/5 dark:bg-white/5 border-border'
                                                             }`}
@@ -433,7 +433,7 @@ export function ProductBuilder({ initialProduct, onSave, onCancel }: ProductBuil
                                                     onClick={() => {
                                                         const current = product.meta?.badges || [];
                                                         const next = current.includes(badge as any) ? current.filter(b => b !== badge) : [...current, badge];
-                                                        updateMeta({ badges: next });
+                                                        updateMeta({ badges: next as any });
                                                     }}
                                                     className={`px-4 py-2 rounded-xl border text-[9px] font-black uppercase tracking-widest transition-all ${product.meta?.badges?.includes(badge as any) ? 'bg-primary text-white border-primary shadow-lg shadow-primary/20' : 'bg-black/5 dark:bg-white/5 border-border text-muted-foreground'}`}
                                                 >

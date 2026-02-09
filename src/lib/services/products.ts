@@ -24,6 +24,7 @@ export interface ProductAsset {
     version?: string;
     size?: string;
     active: boolean;
+    downloadCount?: number;
 }
 
 export interface Product {
@@ -140,7 +141,7 @@ export const productService = {
             const product = docSnap.data() as Product;
             const assets = product.assets?.map(a => {
                 if (a.id === assetId) {
-                    return { ...a, downloadCount: (a as any).downloadCount ? (a as any).downloadCount + 1 : 1 };
+                    return { ...a, downloadCount: (a.downloadCount || 0) + 1 };
                 }
                 return a;
             });

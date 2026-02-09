@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { systemService, SystemConfig } from "@/lib/services/system";
 import { ShieldAlert, Cpu, Lock } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 
 export function SystemGuard({ children }: { children: React.ReactNode }) {
     const [config, setConfig] = useState<SystemConfig | null>(null);

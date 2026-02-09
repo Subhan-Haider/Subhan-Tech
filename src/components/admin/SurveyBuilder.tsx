@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Question, QuestionType } from "@/lib/services/surveys";
 import {
     Plus, Trash2, GripVertical, Settings2,
-    ChevronDown, ChevronUp, Save, Eye, X,
+    Save, X,
     AlignLeft, Type, CheckSquare, Star, CircleDot
 } from "lucide-react";
 import { motion, Reorder } from "framer-motion";

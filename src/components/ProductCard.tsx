@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Terminal, ExternalLink, Shield, Zap, Chrome, Sidebar, Globe, Heart } from "lucide-react";
+import { Terminal, ExternalLink, Zap, Chrome, Sidebar, Globe, Heart } from "lucide-react";
 import Link from "next/link";
 import { Product } from "@/lib/services/products";
 import { useFavorites } from "@/hooks/useFavorites";
@@ -72,9 +72,9 @@ export function ProductCard({ product, index }: ProductCardProps) {
 
                             return badges.map(badge => (
                                 <span key={badge} className={`text-[8px] font-black uppercase tracking-widest px-2 py-0.5 rounded border ${badge === "New" ? "bg-emerald-500/10 text-emerald-500 border-emerald-500/20" :
-                                        badge === "Updated" ? "bg-amber-500/10 text-amber-500 border-amber-500/20" :
-                                            badge === "Beta" ? "bg-blue-500/10 text-blue-500 border-blue-500/20" :
-                                                "bg-primary/10 text-primary border-primary/20"
+                                    badge === "Updated" ? "bg-amber-500/10 text-amber-500 border-amber-500/20" :
+                                        badge === "Beta" ? "bg-blue-500/10 text-blue-500 border-blue-500/20" :
+                                            "bg-primary/10 text-primary border-primary/20"
                                     }`}>
                                     {badge}
                                 </span>
