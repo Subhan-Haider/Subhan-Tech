@@ -5,7 +5,7 @@ export default function robots(): MetadataRoute.Robots {
         rules: {
             userAgent: '*',
             allow: '/',
-            disallow: ['/admin/', '/api/'],
+            disallow: ['/admin/', '/api/', '/_next/'],
         },
         sitemap: 'https://subhan.tech/sitemap.xml',
     };

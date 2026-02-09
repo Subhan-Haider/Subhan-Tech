@@ -49,6 +49,7 @@ export const metadata: Metadata = {
 
 import { ThemeProvider } from "@/components/theme-provider";
 import { AuthProvider } from "@/context/AuthContext";
+import { SystemGuard } from "@/components/SystemGuard";
 
 export default function RootLayout({
   children,
@@ -65,7 +66,9 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <AuthProvider>
-            {children}
+            <SystemGuard>
+              {children}
+            </SystemGuard>
           </AuthProvider>
         </ThemeProvider>
       </body>

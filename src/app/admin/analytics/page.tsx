@@ -1,235 +1,196 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
-    Users, Eye, Clock, TrendingUp,
-    Download, Calendar, Filter
+    BarChart3, TrendingUp, Download,
+    Eye, Activity,
+    Clock, Smartphone, Globe, Code2, Package
 } from "lucide-react";
-import {
-    LineChart, Line, PieChart, Pie, Cell,
-    XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend
-} from 'recharts';
+import { useState, useEffect } from "react";
+import { eventService, SystemEvent } from "@/lib/services/events";
 
-const trafficData = [
-    { date: 'Feb 1', visitors: 1240, pageViews: 3420 },
-    { date: 'Feb 2', visitors: 1398, pageViews: 4120 },
-    { date: 'Feb 3', visitors: 2100, pageViews: 5800 },
-    { date: 'Feb 4', visitors: 1908, pageViews: 4908 },
-    { date: 'Feb 5', visitors: 2400, pageViews: 6200 },
-    { date: 'Feb 6', visitors: 2200, pageViews: 5900 },
-    { date: 'Feb 7', visitors: 2600, pageViews: 7100 },
-];
+export default function AnalyticsDashboard() {
+    const [events, setEvents] = useState<SystemEvent[]>([]);
 
-const deviceData = [
-    { name: 'Desktop', value: 58, color: '#3b82f6' },
-    { name: 'Mobile', value: 32, color: '#10b981' },
-    { name: 'Tablet', value: 10, color: '#f59e0b' },
-];
+    const fetchData = async () => {
+        const data = await eventService.getRecent(500);
+        setEvents(data);
+    };
 
-const topPages = [
-    { page: '/docs/getting-started', views: 12450, avgTime: '4:32' },
-    { page: '/docs/api', views: 8920, avgTime: '6:15' },
-    { page: '/projects', views: 7340, avgTime: '3:48' },
-    { page: '/blog', views: 5680, avgTime: '5:22' },
-    { page: '/contact', views: 3210, avgTime: '2:10' },
-];
+    useEffect(() => {
+        fetchData();
+        const interval = setInterval(fetchData, 30000); // 30s pulse
+        return () => clearInterval(interval);
+    }, []);
 
-const referralSources = [
-    { source: 'Google Search', visitors: 8420, percentage: 42 },
-    { source: 'Direct', visitors: 5200, percentage: 26 },
-    { source: 'GitHub', visitors: 3840, percentage: 19 },
-    { source: 'Twitter', visitors: 1680, percentage: 8 },
-    { source: 'Other', visitors: 1000, percentage: 5 },
-];
+    const stats = {
+        totalViews: events.filter(e => e.type === "view").length,
+        totalDownloads: events.filter(e => e.type === "download").length,
+        totalInstalls: events.filter(e => e.type === "install").length,
+        engagementRate: Math.round((events.filter(e => e.type === "download").length / (events.filter(e => e.type === "view").length || 1)) * 100)
+    };
 
-export default function AnalyticsPage() {
+    const typeIcons = {
+        software: <Package className="w-4 h-4" />,
+        extension: <Code2 className="w-4 h-4" />,
+        download: <Download className="w-4 h-4" />,
+        view: <Eye className="w-4 h-4" />,
+        install: <Activity className="w-4 h-4" />
+    };
+
     return (
         <div className="space-y-10">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+            {/* Intel Header */}
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
                 <div>
-                    <h1 className="text-4xl font-bold tracking-tight mb-2">Analytics Dashboard</h1>
-                    <p className="text-muted-foreground/60">Real-time insights into your platform&apos;s performance and user behavior.</p>
+                    <h1 className="text-4xl font-black uppercase italic tracking-tight flex items-center gap-4">
+                        <BarChart3 className="w-10 h-10 text-primary" />
+                        Neural <span className="text-primary">Intelligence</span>
+                    </h1>
+                    <p className="text-muted-foreground text-xs font-bold uppercase tracking-[0.2em] mt-1 text-glow">Real-time Signal Analysis & Engagement Telemetry</p>
                 </div>
-                <div className="flex gap-3">
-                    <button className="flex items-center gap-2 px-4 py-2 bg-black/5 dark:bg-white/5 border border-border rounded-xl text-sm font-bold hover:bg-black/10 dark:hover:bg-white/10 transition-colors">
-                        <Calendar className="w-4 h-4" /> Last 7 Days
-                    </button>
-                    <button className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground font-bold rounded-xl hover:opacity-90 transition-all shadow-lg shadow-primary/10">
-                        <Download className="w-4 h-4" /> Export Report
-                    </button>
+
+                <div className="flex items-center gap-4">
+                    <div className="px-4 py-2 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 text-[10px] font-black uppercase tracking-widest flex items-center gap-2">
+                        <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                        Live Feed Active
+                    </div>
                 </div>
             </div>
 
-            {/* Key Metrics */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {/* Core Metrics */}
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                 {[
-                    { label: "Total Visitors", value: "14.2k", change: "+12.5%", icon: Users, trend: "up" },
-                    { label: "Page Views", value: "42.1k", change: "+8.3%", icon: Eye, trend: "up" },
-                    { label: "Avg. Session", value: "4m 32s", change: "-2.1%", icon: Clock, trend: "down" },
-                    { label: "Conversion Rate", value: "3.8%", change: "+0.4%", icon: TrendingUp, trend: "up" },
-                ].map((metric, i) => (
+                    { label: "Signal Impressions", value: stats.totalViews.toLocaleString(), icon: Eye, color: "blue" },
+                    { label: "Asset Extractions", value: stats.totalDownloads.toLocaleString(), icon: Download, color: "emerald" },
+                    { label: "Neural Integrations", value: stats.totalInstalls.toLocaleString(), icon: Activity, color: "amber" },
+                    { label: "Protocol Intensity", value: `${stats.engagementRate}%`, icon: TrendingUp, color: "primary" },
+                ].map((stat, i) => (
                     <motion.div
-                        key={metric.label}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
+                        key={stat.label}
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
                         transition={{ delay: i * 0.1 }}
-                        className="glass-card p-6 rounded-2xl border border-border bg-black/[0.02] dark:bg-white/[0.02]"
+                        className="glass-card p-6 rounded-[2rem] border border-border flex flex-col justify-between"
                     >
-                        <div className="flex items-center justify-between mb-4">
-                            <div className="p-3 rounded-xl bg-black/5 dark:bg-white/5">
-                                <metric.icon className="w-5 h-5 text-muted-foreground/60" />
-                            </div>
-                            <span className={`text-xs font-bold ${metric.trend === "up" ? "text-green-500" : "text-red-500"
-                                }`}>
-                                {metric.change}
-                            </span>
+                        <div className="flex justify-between items-start mb-6">
+                            <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/30">{stat.label}</p>
+                            <stat.icon className={`w-4 h-4 opacity-30`} style={{ color: `var(--${stat.color})` }} />
                         </div>
-                        <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground/40 mb-1">{metric.label}</p>
-                        <p className="text-3xl font-bold">{metric.value}</p>
+                        <p className="text-4xl font-black tracking-tighter">{stat.value}</p>
                     </motion.div>
                 ))}
             </div>
 
-            {/* Traffic Chart */}
-            <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.4 }}
-                className="glass-card p-8 rounded-2xl border border-white/5"
-            >
-                <div className="flex items-center justify-between mb-6">
-                    <div>
-                        <h2 className="text-2xl font-bold mb-1">Traffic Overview</h2>
-                        <p className="text-sm text-muted-foreground/40">Daily visitors and page views</p>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                {/* Real-time Event Stream */}
+                <div className="lg:col-span-2 space-y-8">
+                    <div className="glass-card rounded-[2.5rem] border border-border overflow-hidden">
+                        <div className="p-8 border-b border-border bg-black/5 dark:bg-white/5">
+                            <h3 className="text-[10px] font-black uppercase tracking-[0.2em] flex items-center gap-3">
+                                <Activity className="w-4 h-4 text-primary" /> Live Signal Stream
+                            </h3>
+                        </div>
+                        <div className="overflow-x-auto">
+                            <table className="w-full text-left">
+                                <thead>
+                                    <tr className="border-b border-border bg-black/[0.01]">
+                                        <th className="px-8 py-4 text-[9px] font-black uppercase tracking-widest text-muted-foreground/20">Protocol</th>
+                                        <th className="px-8 py-4 text-[9px] font-black uppercase tracking-widest text-muted-foreground/20">Target Asset</th>
+                                        <th className="px-8 py-4 text-[9px] font-black uppercase tracking-widest text-muted-foreground/20">Extraction ID</th>
+                                        <th className="px-8 py-4 text-[9px] font-black uppercase tracking-widest text-muted-foreground/20 text-right">Timestamp</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <AnimatePresence>
+                                        {events.slice(0, 50).map((event, i) => (
+                                            <motion.tr
+                                                key={event.id}
+                                                initial={{ opacity: 0, x: -10 }}
+                                                animate={{ opacity: 1, x: 0 }}
+                                                exit={{ opacity: 0 }}
+                                                className="border-b border-border hover:bg-black/5 dark:hover:bg-white/5 transition-colors group"
+                                            >
+                                                <td className="px-8 py-6">
+                                                    <div className="flex items-center gap-3">
+                                                        <div className={`p-2 rounded-lg ${event.type === 'download' ? 'bg-emerald-500/10 text-emerald-500' :
+                                                            event.type === 'view' ? 'bg-blue-500/10 text-blue-500' :
+                                                                'bg-amber-500/10 text-amber-500'
+                                                            }`}>
+                                                            {typeIcons[event.type as keyof typeof typeIcons]}
+                                                        </div>
+                                                        <span className="text-[10px] font-black uppercase tracking-tight">{event.type}</span>
+                                                    </div>
+                                                </td>
+                                                <td className="px-8 py-6">
+                                                    <p className="font-bold text-xs">{event.productName}</p>
+                                                    <p className="text-[10px] text-muted-foreground/40 font-mono">{event.productId.slice(0, 8)}...</p>
+                                                </td>
+                                                <td className="px-8 py-6">
+                                                    <div className="flex items-center gap-2">
+                                                        <Clock className="w-3 h-3 text-muted-foreground/20" />
+                                                        <span className="text-[10px] font-mono text-muted-foreground/60">NODE-{Math.floor(Math.random() * 9999)}</span>
+                                                    </div>
+                                                </td>
+                                                <td className="px-8 py-6 text-right">
+                                                    <span className="text-[10px] font-black uppercase text-muted-foreground/30">{new Date(event.timestamp).toLocaleTimeString()}</span>
+                                                </td>
+                                            </motion.tr>
+                                        ))}
+                                    </AnimatePresence>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                    <button className="flex items-center gap-2 px-4 py-2 bg-black/5 dark:bg-white/5 border border-border rounded-lg text-sm font-bold hover:bg-black/10 dark:hover:bg-white/10 transition-colors">
-                        <Filter className="w-4 h-4" /> Filter
-                    </button>
                 </div>
-                <div className="h-80">
-                    <ResponsiveContainer width="100%" height="100%">
-                        <LineChart data={trafficData}>
-                            <CartesianGrid strokeDasharray="3 3" stroke="currentColor" className="text-border/50" />
-                            <XAxis dataKey="date" stroke="currentColor" className="text-muted-foreground/40" tick={{ fontSize: 12 }} />
-                            <YAxis stroke="currentColor" className="text-muted-foreground/40" tick={{ fontSize: 12 }} />
-                            <Tooltip
-                                contentStyle={{
-                                    backgroundColor: 'hsl(var(--background))',
-                                    border: '1px solid hsl(var(--border))',
-                                    borderRadius: '12px',
-                                    color: 'hsl(var(--foreground))'
-                                }}
-                            />
-                            <Legend />
-                            <Line type="monotone" dataKey="visitors" stroke="#3b82f6" strokeWidth={2} />
-                            <Line type="monotone" dataKey="pageViews" stroke="#10b981" strokeWidth={2} />
-                        </LineChart>
-                    </ResponsiveContainer>
+
+                {/* Device & Platform Breakdown (Mock logic for UI demo) */}
+                <div className="space-y-8">
+                    <motion.div
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        className="glass-card p-8 rounded-[2.5rem] border border-border"
+                    >
+                        <h3 className="text-[10px] font-black uppercase tracking-[0.2em] mb-10 border-b border-border pb-6 flex items-center justify-between">
+                            Device Distribution <Smartphone className="w-4 h-4 text-primary" />
+                        </h3>
+                        <div className="space-y-6">
+                            {[
+                                { label: "Synapse Desktop", value: 72, color: "primary" },
+                                { label: "Neural Mobile", value: 18, color: "emerald" },
+                                { label: "Virtual Environments", value: 10, color: "amber" }
+                            ].map(item => (
+                                <div key={item.label} className="space-y-2">
+                                    <div className="flex justify-between text-[10px] font-black uppercase tracking-tight">
+                                        <span>{item.label}</span>
+                                        <span className="text-primary">{item.value}%</span>
+                                    </div>
+                                    <div className="h-1.5 w-full bg-black/5 dark:bg-white/5 rounded-full overflow-hidden">
+                                        <div className={`h-full bg-${item.color}`} style={{ width: `${item.value}%`, backgroundColor: `var(--${item.color})` }} />
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </motion.div>
+
+                    <motion.div
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.1 }}
+                        className="p-8 rounded-[2rem] bg-indigo-500/10 border border-indigo-500/20"
+                    >
+                        <div className="flex gap-4">
+                            <Globe className="w-6 h-6 text-indigo-500 shrink-0" />
+                            <div>
+                                <p className="text-xs font-black uppercase tracking-tight text-indigo-500 mb-1">Global Presence</p>
+                                <p className="text-[10px] text-indigo-500/70 font-medium leading-relaxed">
+                                    Signals detected from 24 countries. Primary node concentration in North America and Western Europe.
+                                </p>
+                            </div>
+                        </div>
+                    </motion.div>
                 </div>
-            </motion.div>
-
-            {/* Device Distribution & Referral Sources */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <motion.div
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.5 }}
-                    className="glass-card p-8 rounded-2xl border border-border bg-black/[0.02] dark:bg-white/[0.02]"
-                >
-                    <h2 className="text-2xl font-bold mb-6">Device Distribution</h2>
-                    <div className="h-64 flex items-center justify-center">
-                        <ResponsiveContainer width="100%" height="100%">
-                            <PieChart>
-                                <Pie
-                                    data={deviceData}
-                                    cx="50%"
-                                    cy="50%"
-                                    innerRadius={60}
-                                    outerRadius={90}
-                                    paddingAngle={5}
-                                    dataKey="value"
-                                >
-                                    {deviceData.map((entry, index) => (
-                                        <Cell key={`cell-${index}`} fill={entry.color} />
-                                    ))}
-                                </Pie>
-                                <Tooltip
-                                    contentStyle={{
-                                        backgroundColor: 'hsl(var(--background))',
-                                        border: '1px solid hsl(var(--border))',
-                                        borderRadius: '12px'
-                                    }}
-                                />
-                            </PieChart>
-                        </ResponsiveContainer>
-                    </div>
-                    <div className="flex justify-center gap-6 mt-4">
-                        {deviceData.map((device) => (
-                            <div key={device.name} className="flex items-center gap-2">
-                                <div className="w-3 h-3 rounded-full" style={{ backgroundColor: device.color }} />
-                                <span className="text-sm text-muted-foreground/60">{device.name} ({device.value}%)</span>
-                            </div>
-                        ))}
-                    </div>
-                </motion.div>
-
-                <motion.div
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.6 }}
-                    className="glass-card p-8 rounded-2xl border border-border bg-black/[0.02] dark:bg-white/[0.02]"
-                >
-                    <h2 className="text-2xl font-bold mb-6">Referral Sources</h2>
-                    <div className="space-y-4">
-                        {referralSources.map((source, i) => (
-                            <div key={i}>
-                                <div className="flex items-center justify-between mb-2">
-                                    <span className="text-sm font-bold">{source.source}</span>
-                                    <span className="text-sm text-muted-foreground/40">{source.visitors.toLocaleString()} visitors</span>
-                                </div>
-                                <div className="h-2 bg-black/5 dark:bg-white/5 rounded-full overflow-hidden">
-                                    <motion.div
-                                        initial={{ width: 0 }}
-                                        animate={{ width: `${source.percentage}%` }}
-                                        transition={{ delay: 0.7 + i * 0.1, duration: 0.8 }}
-                                        className="h-full bg-gradient-to-r from-blue-500 to-green-500"
-                                    />
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </motion.div>
             </div>
-
-            {/* Top Pages */}
-            <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.7 }}
-                className="glass-card rounded-2xl border border-border bg-black/[0.02] dark:bg-white/[0.02] overflow-hidden"
-            >
-                <div className="p-8 border-b border-border">
-                    <h2 className="text-2xl font-bold">Top Performing Pages</h2>
-                </div>
-                <table className="w-full text-left border-collapse">
-                    <thead>
-                        <tr className="border-b border-border bg-black/[0.02] dark:bg-white/[0.02]">
-                            <th className="px-8 py-4 text-xs font-bold uppercase tracking-widest text-muted-foreground/20">Page</th>
-                            <th className="px-8 py-4 text-xs font-bold uppercase tracking-widest text-muted-foreground/20">Views</th>
-                            <th className="px-8 py-4 text-xs font-bold uppercase tracking-widest text-muted-foreground/20">Avg. Time</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {topPages.map((page, i) => (
-                            <tr key={i} className="border-b border-border hover:bg-black/[0.03] dark:hover:bg-white/[0.03] transition-colors">
-                                <td className="px-8 py-6 font-mono text-sm">{page.page}</td>
-                                <td className="px-8 py-6 font-bold">{page.views.toLocaleString()}</td>
-                                <td className="px-8 py-6 text-muted-foreground/60">{page.avgTime}</td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </motion.div>
         </div>
     );
 }

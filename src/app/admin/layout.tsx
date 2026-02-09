@@ -13,6 +13,7 @@ import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { useEffect } from "react";
+import { AIAssistant } from "@/components/admin/AIAssistant";
 
 export default function AdminLayout({
     children,
@@ -49,8 +50,7 @@ export default function AdminLayout({
 
     const menuItems = [
         { name: "Overview", icon: LayoutDashboard, href: "/admin" },
-        { name: "Software", icon: Package, href: "/admin/software" },
-        { name: "Extensions", icon: Code2, href: "/admin/extensions" },
+        { name: "Products", icon: Package, href: "/admin/products" },
         { name: "Tools", icon: Zap, href: "/admin/tools" },
         { name: "Websites", icon: Globe, href: "/admin/websites" },
         { name: "Coupons", icon: Ticket, href: "/admin/coupons" },
@@ -173,6 +173,7 @@ export default function AdminLayout({
                     {children}
                 </div>
             </main>
+            <AIAssistant />
         </div>
     );
 }

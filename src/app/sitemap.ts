@@ -1,36 +1,32 @@
 import { MetadataRoute } from 'next';
+import { productService } from '@/lib/services/products';
+import { SITE_CONFIG } from '@/data/config';
 
-export default function sitemap(): MetadataRoute.Sitemap {
-    const baseUrl = 'https://subhan.tech';
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+    const products = await productService.getAll();
+    const baseUrl = "https://subhan.tech";
 
-    // Main Pages
-    const mainPages = [
-        '',
-        '/about',
-        '/projects',
-        '/blog',
-        '/contact',
-        '/docs',
-        '/surveys',
-    ].map((route) => ({
-        url: `${baseUrl}${route}`,
-        lastModified: new Date(),
+    const productUrls = products.map((p) => ({
+        url: `${baseUrl}/products/${p.id}`,
+        lastModified: new Date(p.lastUpdated || p.createdAt || new Date()),
         changeFrequency: 'weekly' as const,
-        priority: route === '' ? 1 : 0.8,
+        priority: 0.8,
     }));
 
-    // Documentation Pages
-    const docPages = [
-        '/docs/getting-started',
-        '/docs/api',
-        '/docs/extensions',
-        '/docs/guides',
-    ].map((route) => ({
-        url: `${baseUrl}${route}`,
-        lastModified: new Date(),
-        changeFrequency: 'monthly' as const,
-        priority: 0.6,
-    }));
+    const staticUrls = [
+        {
+            url: baseUrl,
+            lastModified: new Date(),
+            changeFrequency: 'daily' as const,
+            priority: 1,
+        },
+        {
+            url: `${baseUrl}/admin`,
+            lastModified: new Date(),
+            changeFrequency: 'monthly' as const,
+            priority: 0.3,
+        }
+    ];
 
-    return [...mainPages, ...docPages];
+    return [...staticUrls, ...productUrls];
 }

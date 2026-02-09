@@ -1,254 +1,228 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
-    Link as LinkIcon, Plus, Edit3, Trash2, Copy,
-    ExternalLink, BarChart3, Search, Filter
+    Link as LinkIcon, Plus, Trash2,
+    ExternalLink, BarChart3, Search,
+    Activity, ArrowRight, CheckCircle2
 } from "lucide-react";
-import { useState } from "react";
-
-interface URLRedirect {
-    id: number;
-    shortUrl: string;
-    destination: string;
-    clicks: number;
-    createdAt: string;
-    status: "Active" | "Inactive";
-}
+import { useState, useEffect } from "react";
+import { redirectService, RedirectLink } from "@/lib/services/redirects";
 
 export default function URLManager() {
-    const [urls, setUrls] = useState<URLRedirect[]>([
-        {
-            id: 1,
-            shortUrl: "subhan.tech/gh",
-            destination: "https://github.com/Subhan-Haider",
-            clicks: 1243,
-            createdAt: "2026-02-01",
-            status: "Active",
-        },
-        {
-            id: 2,
-            shortUrl: "subhan.tech/docs",
-            destination: "https://docs.subhan.tech/getting-started",
-            clicks: 856,
-            createdAt: "2026-01-28",
-            status: "Active",
-        },
-        {
-            id: 3,
-            shortUrl: "subhan.tech/lootops",
-            destination: "https://lootops.subhan.tech",
-            clicks: 2341,
-            createdAt: "2026-01-15",
-            status: "Active",
-        },
-    ]);
-
+    const [urls, setUrls] = useState<RedirectLink[]>([]);
     const [isCreating, setIsCreating] = useState(false);
-    const [newUrl, setNewUrl] = useState({
-        shortUrl: "",
-        destination: "",
+    const [search, setSearch] = useState("");
+    const [newUrl, setNewUrl] = useState<Partial<RedirectLink>>({
+        slug: "",
+        targetUrl: "",
+        type: "custom"
     });
 
-    const handleCreate = () => {
-        const url: URLRedirect = {
-            id: urls.length + 1,
-            shortUrl: `subhan.tech/${newUrl.shortUrl}`,
-            destination: newUrl.destination,
-            clicks: 0,
-            createdAt: new Date().toISOString().split('T')[0],
-            status: "Active",
-        };
-        setUrls([...urls, url]);
-        setNewUrl({ shortUrl: "", destination: "" });
-        setIsCreating(false);
+    const fetchData = async () => {
+        const data = await redirectService.getAll();
+        setUrls(data);
     };
 
-    const handleDelete = (id: number) => {
-        if (confirm("Are you sure you want to delete this URL redirect?")) {
-            setUrls(urls.filter(u => u.id !== id));
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    const handleCreate = async () => {
+        if (!newUrl.slug || !newUrl.targetUrl) return;
+        await redirectService.create(newUrl as Omit<RedirectLink, "id" | "clickCount" | "createdAt">);
+        setNewUrl({ slug: "", targetUrl: "", type: "custom" });
+        setIsCreating(false);
+        fetchData();
+    };
+
+    const handleDelete = async (id: string) => {
+        if (confirm("Decommission this neural bridge? This will break live links.")) {
+            await redirectService.delete(id);
+            fetchData();
         }
     };
 
-    const copyToClipboard = (text: string) => {
-        navigator.clipboard.writeText(`https://${text}`);
-        alert("Copied to clipboard!");
+    const copyToClipboard = (slug: string) => {
+        const fullUrl = `${window.location.origin}/go/${slug}`;
+        navigator.clipboard.writeText(fullUrl);
     };
+
+    const filteredUrls = urls.filter(u =>
+        u.slug.toLowerCase().includes(search.toLowerCase()) ||
+        u.targetUrl.toLowerCase().includes(search.toLowerCase())
+    );
+
+    const totalClicks = urls.reduce((acc, u) => acc + u.clickCount, 0);
 
     return (
         <div className="space-y-10">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+            {/* Context Header */}
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
                 <div>
-                    <h1 className="text-4xl font-bold tracking-tight mb-2">URL Manager</h1>
-                    <p className="text-white/40">Create and manage short URLs and redirects for your platform.</p>
+                    <h1 className="text-4xl font-black uppercase italic tracking-tight flex items-center gap-4">
+                        <LinkIcon className="w-10 h-10 text-primary" />
+                        Neural <span className="text-primary">Router</span>
+                    </h1>
+                    <p className="text-muted-foreground text-xs font-bold uppercase tracking-[0.2em] mt-1">Short-URL Aliases & Telemetry Redirects</p>
                 </div>
+
                 <button
-                    onClick={() => setIsCreating(true)}
-                    className="flex items-center gap-2 px-6 py-3 bg-white text-black font-bold rounded-xl hover:bg-white/90 transition-all"
+                    onClick={() => setIsCreating(!isCreating)}
+                    className="flex items-center gap-3 px-8 py-4 bg-primary text-primary-foreground font-black rounded-2xl hover:opacity-90 transition-all shadow-xl shadow-primary/20 uppercase tracking-widest text-xs"
                 >
-                    <Plus className="w-5 h-5" />
-                    Create Short URL
+                    {isCreating ? <ArrowRight className="w-4 h-4 rotate-180" /> : <Plus className="w-4 h-4" />}
+                    {isCreating ? "Abort Command" : "Initialize Link"}
                 </button>
             </div>
 
-            {/* Stats */}
+            {/* Signal Stats */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                 {[
-                    { label: "Total URLs", value: urls.length },
-                    { label: "Total Clicks", value: urls.reduce((acc, u) => acc + u.clicks, 0).toLocaleString() },
-                    { label: "Active URLs", value: urls.filter(u => u.status === "Active").length },
-                    { label: "Avg. Clicks/URL", value: Math.round(urls.reduce((acc, u) => acc + u.clicks, 0) / urls.length) },
+                    { label: "Active Nodes", value: urls.length, icon: Activity },
+                    { label: "Total Signal Volume", value: totalClicks.toLocaleString(), icon: BarChart3 },
+                    { label: "Average Intensity", value: Math.round(totalClicks / (urls.length || 1)), icon: LinkIcon },
+                    { label: "Uptime Pulse", value: "99.9%", icon: CheckCircle2 },
                 ].map((stat, i) => (
                     <motion.div
                         key={stat.label}
-                        initial={{ opacity: 0, y: 20 }}
+                        initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: i * 0.1 }}
-                        className="glass-card p-6 rounded-2xl border border-white/5"
+                        className="glass-card p-6 rounded-[2rem] border border-border flex flex-col justify-between"
                     >
-                        <p className="text-xs font-bold uppercase tracking-widest text-white/40 mb-2">{stat.label}</p>
-                        <p className="text-3xl font-bold">{stat.value}</p>
+                        <div className="flex justify-between items-start mb-4">
+                            <p className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground/50">{stat.label}</p>
+                            <stat.icon className="w-4 h-4 text-primary opacity-20" />
+                        </div>
+                        <p className="text-3xl font-black tracking-tighter">{stat.value}</p>
                     </motion.div>
                 ))}
             </div>
 
-            {/* Create URL Form */}
-            {isCreating && (
-                <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: "auto" }}
-                    className="glass-card p-8 rounded-2xl border border-white/5 overflow-hidden"
-                >
-                    <h2 className="text-2xl font-bold mb-6">Create New Short URL</h2>
-                    <div className="space-y-4">
-                        <div>
-                            <label className="block text-sm font-bold mb-2 text-white/60">Short URL Slug</label>
-                            <div className="flex items-center gap-2">
-                                <span className="text-white/40 text-sm">subhan.tech/</span>
+            <AnimatePresence>
+                {isCreating && (
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.95 }}
+                        className="glass-card p-10 rounded-[3rem] border border-primary/20 shadow-2xl shadow-primary/5"
+                    >
+                        <h2 className="text-xl font-black uppercase italic mb-8 tracking-tight">Configure <span className="text-primary">Bridge</span></h2>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div className="space-y-4">
+                                <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/50">Neural Slug (subhan.tech/go/...)</label>
                                 <input
                                     type="text"
-                                    className="flex-1 px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-white/30 outline-none transition-all text-white"
-                                    placeholder="my-link"
-                                    value={newUrl.shortUrl}
-                                    onChange={(e) => setNewUrl({ ...newUrl, shortUrl: e.target.value })}
+                                    className="w-full px-6 py-4 rounded-2xl bg-black/5 dark:bg-white/5 border border-border outline-none focus:border-primary transition-all font-mono text-sm"
+                                    placeholder="e.g. extension-feedback"
+                                    value={newUrl.slug}
+                                    onChange={(e) => setNewUrl({ ...newUrl, slug: e.target.value })}
+                                />
+                            </div>
+                            <div className="space-y-4">
+                                <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/50">Target Protocol (Destination)</label>
+                                <input
+                                    type="url"
+                                    className="w-full px-6 py-4 rounded-2xl bg-black/5 dark:bg-white/5 border border-border outline-none focus:border-primary transition-all font-mono text-sm"
+                                    placeholder="https://..."
+                                    value={newUrl.targetUrl}
+                                    onChange={(e) => setNewUrl({ ...newUrl, targetUrl: e.target.value })}
                                 />
                             </div>
                         </div>
-                        <div>
-                            <label className="block text-sm font-bold mb-2 text-white/60">Destination URL</label>
-                            <input
-                                type="url"
-                                className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-white/30 outline-none transition-all text-white"
-                                placeholder="https://example.com/destination"
-                                value={newUrl.destination}
-                                onChange={(e) => setNewUrl({ ...newUrl, destination: e.target.value })}
-                            />
-                        </div>
-                        <div className="flex gap-4 pt-4">
-                            <button
-                                onClick={() => setIsCreating(false)}
-                                className="flex-1 px-6 py-3 border border-white/10 rounded-xl font-bold hover:bg-white/5 transition-all"
-                            >
-                                Cancel
-                            </button>
+                        <div className="mt-8 flex gap-4">
                             <button
                                 onClick={handleCreate}
-                                className="flex-1 px-6 py-3 bg-white text-black font-bold rounded-xl hover:bg-white/90 transition-all"
+                                className="flex-1 py-4 bg-primary text-primary-foreground font-black rounded-2xl hover:opacity-90 transition-all uppercase tracking-widest text-xs"
                             >
-                                Create URL
+                                Deploy Link
                             </button>
                         </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
+            {/* Neural Stream Registry */}
+            <div className="glass-card rounded-[2.5rem] border border-border overflow-hidden">
+                <div className="p-8 border-b border-border flex flex-col md:flex-row gap-6 justify-between items-center">
+                    <div className="flex items-center gap-4 bg-black/5 dark:bg-white/5 border border-border px-6 py-3 rounded-xl flex-1 w-full md:max-w-md group focus-within:border-primary/50 transition-all">
+                        <Search className="w-4 h-4 text-muted-foreground/30 group-focus-within:text-primary" />
+                        <input
+                            placeholder="Filter neural links..."
+                            className="bg-transparent border-none outline-none text-xs text-foreground placeholder:text-muted-foreground/20 w-full font-bold"
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                        />
                     </div>
-                </motion.div>
-            )}
-
-            {/* Search & Filter */}
-            <div className="flex gap-4">
-                <div className="flex items-center gap-4 bg-white/5 border border-white/5 px-4 py-2 rounded-xl flex-1 group focus-within:border-white/20 transition-all">
-                    <Search className="w-4 h-4 text-white/20 group-focus-within:text-white/60" />
-                    <input
-                        placeholder="Search URLs..."
-                        className="bg-transparent border-none outline-none text-sm text-white placeholder:text-white/20 w-full"
-                    />
                 </div>
-                <button className="flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/5 rounded-xl text-sm font-bold hover:bg-white/10 transition-colors">
-                    <Filter className="w-4 h-4" /> Filter
-                </button>
-            </div>
 
-            {/* URLs Table */}
-            <div className="rounded-2xl border border-white/5 bg-white/[0.02] overflow-hidden">
-                <table className="w-full text-left border-collapse">
-                    <thead>
-                        <tr className="border-b border-white/5 bg-white/[0.01]">
-                            <th className="px-6 py-4 text-xs font-bold uppercase tracking-widest text-white/20">Short URL</th>
-                            <th className="px-6 py-4 text-xs font-bold uppercase tracking-widest text-white/20">Destination</th>
-                            <th className="px-6 py-4 text-xs font-bold uppercase tracking-widest text-white/20">Clicks</th>
-                            <th className="px-6 py-4 text-xs font-bold uppercase tracking-widest text-white/20">Status</th>
-                            <th className="px-6 py-4 text-xs font-bold uppercase tracking-widest text-white/20 text-right">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {urls.map((url, i) => (
-                            <motion.tr
-                                key={url.id}
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                transition={{ delay: i * 0.05 }}
-                                className="border-b border-white/5 hover:bg-white/[0.03] transition-colors"
-                            >
-                                <td className="px-6 py-6">
-                                    <div className="flex items-center gap-2">
-                                        <LinkIcon className="w-4 h-4 text-white/40" />
-                                        <code className="text-sm font-mono text-blue-400">{url.shortUrl}</code>
-                                        <button
-                                            onClick={() => copyToClipboard(url.shortUrl)}
-                                            className="p-1 rounded hover:bg-white/10 transition-colors"
-                                        >
-                                            <Copy className="w-3 h-3 text-white/40" />
-                                        </button>
-                                    </div>
-                                </td>
-                                <td className="px-6 py-6 max-w-md">
-                                    <p className="text-sm text-white/60 truncate">{url.destination}</p>
-                                </td>
-                                <td className="px-6 py-6">
-                                    <div className="flex items-center gap-2">
-                                        <BarChart3 className="w-4 h-4 text-white/40" />
-                                        <span className="font-bold">{url.clicks.toLocaleString()}</span>
-                                    </div>
-                                </td>
-                                <td className="px-6 py-6">
-                                    <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest ${url.status === "Active" ? "bg-green-500/20 text-green-500" : "bg-white/10 text-white/40"
-                                        }`}>
-                                        {url.status}
-                                    </span>
-                                </td>
-                                <td className="px-6 py-6 text-right">
-                                    <div className="flex items-center justify-end gap-2">
-                                        <a
-                                            href={`https://${url.shortUrl}`}
-                                            target="_blank"
-                                            rel="noreferrer"
-                                            className="p-2 rounded-lg hover:bg-white/10 transition-colors text-white/40 hover:text-white"
-                                        >
-                                            <ExternalLink className="w-4 h-4" />
-                                        </a>
-                                        <button className="p-2 rounded-lg hover:bg-white/10 transition-colors text-white/40 hover:text-white">
-                                            <Edit3 className="w-4 h-4" />
-                                        </button>
-                                        <button
-                                            onClick={() => handleDelete(url.id)}
-                                            className="p-2 rounded-lg hover:bg-white/10 transition-colors text-white/40 hover:text-red-500"
-                                        >
-                                            <Trash2 className="w-4 h-4" />
-                                        </button>
-                                    </div>
-                                </td>
-                            </motion.tr>
-                        ))}
-                    </tbody>
-                </table>
+                <div className="overflow-x-auto">
+                    <table className="w-full text-left">
+                        <thead>
+                            <tr className="border-b border-border bg-black/[0.01]">
+                                <th className="px-8 py-6 text-[10px] font-black uppercase tracking-widest text-muted-foreground/30">Bridge Slug</th>
+                                <th className="px-8 py-6 text-[10px] font-black uppercase tracking-widest text-muted-foreground/30">Target Protocol</th>
+                                <th className="px-8 py-6 text-[10px] font-black uppercase tracking-widest text-muted-foreground/30 text-center">Signals</th>
+                                <th className="px-8 py-6 text-[10px] font-black uppercase tracking-widest text-muted-foreground/30 text-right">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {filteredUrls.map((url, i) => (
+                                <motion.tr
+                                    key={url.id}
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    transition={{ delay: i * 0.05 }}
+                                    className="border-b border-border hover:bg-black/5 dark:hover:bg-white/5 transition-colors group"
+                                >
+                                    <td className="px-8 py-6">
+                                        <div className="flex items-center gap-4">
+                                            <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+                                                <LinkIcon className="w-4 h-4" />
+                                            </div>
+                                            <div>
+                                                <p className="font-mono text-sm text-primary font-bold">go/{url.slug}</p>
+                                                <button
+                                                    onClick={() => copyToClipboard(url.slug)}
+                                                    className="text-[9px] font-black uppercase tracking-widest text-muted-foreground/30 hover:text-primary transition-colors mt-1"
+                                                >
+                                                    Copy Signal Link
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td className="px-8 py-6">
+                                        <p className="text-xs text-muted-foreground font-mono truncate max-w-xs">{url.targetUrl}</p>
+                                    </td>
+                                    <td className="px-8 py-6 text-center">
+                                        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-black/5 dark:bg-white/5 border border-border">
+                                            <Activity className="w-3 h-3 text-emerald-500" />
+                                            <span className="text-xs font-black">{url.clickCount.toLocaleString()}</span>
+                                        </div>
+                                    </td>
+                                    <td className="px-8 py-6 text-right">
+                                        <div className="flex items-center justify-end gap-3 opacity-0 group-hover:opacity-100 transition-opacity">
+                                            <a
+                                                href={url.targetUrl}
+                                                target="_blank"
+                                                className="p-3 rounded-xl hover:bg-primary hover:text-white transition-all text-muted-foreground/30 shadow-sm"
+                                            >
+                                                <ExternalLink className="w-4 h-4" />
+                                            </a>
+                                            <button
+                                                onClick={() => handleDelete(url.id!)}
+                                                className="p-3 rounded-xl hover:bg-destructive hover:text-white transition-all text-muted-foreground/30"
+                                            >
+                                                <Trash2 className="w-4 h-4" />
+                                            </button>
+                                        </div>
+                                    </td>
+                                </motion.tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     );

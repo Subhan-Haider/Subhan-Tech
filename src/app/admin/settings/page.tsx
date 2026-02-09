@@ -1,281 +1,183 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
     Settings, Bell, Shield, Database,
-    Globe, Mail, Users, Save
+    Globe, Mail, Users, Save, Lock,
+    AlertTriangle, Activity, Terminal, ExternalLink
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { systemService, SystemConfig } from "@/lib/services/system";
+import { auditService, AuditLog } from "@/lib/services/audit";
 
 export default function SettingsPage() {
-    const [settings, setSettings] = useState({
-        siteName: "Neural Hub",
-        siteUrl: "https://subhan.tech",
-        adminEmail: "admin@subhan.tech",
-        enableAnalytics: true,
-        enableNotifications: true,
-        maintenanceMode: false,
-        apiRateLimit: 100,
-        sessionTimeout: 24,
+    const [config, setConfig] = useState<SystemConfig>({
+        lockdownMode: false,
+        maintenanceMessage: "",
+        globalNotice: ""
     });
+    const [auditLogs, setAuditLogs] = useState<AuditLog[]>([]);
+    const [loading, setLoading] = useState(true);
 
-    const handleSave = () => {
-        alert("Settings saved successfully!");
+    const fetchData = async () => {
+        setLoading(true);
+        const [c, logs] = await Promise.all([
+            systemService.getConfig(),
+            auditService.getRecent(10)
+        ]);
+        setConfig(c);
+        setAuditLogs(logs);
+        setLoading(false);
+    };
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    const handleSave = async () => {
+        await systemService.updateConfig(config);
+        alert("Neural configuration updated.");
     };
 
     return (
         <div className="space-y-10">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
                 <div>
-                    <h1 className="text-4xl font-bold tracking-tight mb-2">System Settings</h1>
-                    <p className="text-muted-foreground/60">Configure platform settings and preferences.</p>
+                    <h1 className="text-4xl font-black uppercase italic tracking-tight flex items-center gap-4">
+                        <Settings className="w-10 h-10 text-primary" />
+                        System <span className="text-primary">Intel</span>
+                    </h1>
+                    <p className="text-muted-foreground text-xs font-bold uppercase tracking-[0.2em] mt-1">Core Architecture & Protocol Management</p>
                 </div>
                 <button
                     onClick={handleSave}
-                    className="flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground font-bold rounded-xl hover:opacity-90 transition-all shadow-lg shadow-primary/10"
+                    className="flex items-center gap-3 px-8 py-4 bg-primary text-primary-foreground font-black rounded-2xl hover:opacity-90 transition-all shadow-xl shadow-primary/20 uppercase tracking-widest text-xs"
                 >
-                    <Save className="w-5 h-5" />
-                    Save Changes
+                    <Save className="w-4 h-4" />
+                    Commit Protocol
                 </button>
             </div>
 
-            {/* General Settings */}
-            <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="glass-card p-8 rounded-2xl border border-border bg-black/[0.02] dark:bg-white/[0.02]"
-            >
-                <div className="flex items-center gap-3 mb-6">
-                    <div className="p-3 rounded-xl bg-black/5 dark:bg-white/5">
-                        <Globe className="w-6 h-6 text-muted-foreground/60" />
-                    </div>
-                    <h2 className="text-2xl font-bold">General Settings</h2>
-                </div>
-                <div className="space-y-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label className="block text-sm font-bold mb-2 text-muted-foreground/60">Site Name</label>
-                            <input
-                                type="text"
-                                className="w-full px-4 py-3 rounded-xl bg-black/5 dark:bg-white/5 border border-border focus:border-primary outline-none transition-all text-foreground"
-                                value={settings.siteName}
-                                onChange={(e) => setSettings({ ...settings, siteName: e.target.value })}
-                            />
-                        </div>
-                        <div>
-                            <label className="block text-sm font-bold mb-2 text-muted-foreground/60">Site URL</label>
-                            <input
-                                type="url"
-                                className="w-full px-4 py-3 rounded-xl bg-black/5 dark:bg-white/5 border border-border focus:border-primary outline-none transition-all text-foreground"
-                                value={settings.siteUrl}
-                                onChange={(e) => setSettings({ ...settings, siteUrl: e.target.value })}
-                            />
-                        </div>
-                    </div>
-                    <div>
-                        <label className="block text-sm font-bold mb-2 text-muted-foreground/60">Admin Email</label>
-                        <input
-                            type="email"
-                            className="w-full px-4 py-3 rounded-xl bg-black/5 dark:bg-white/5 border border-border focus:border-primary outline-none transition-all text-foreground"
-                            value={settings.adminEmail}
-                            onChange={(e) => setSettings({ ...settings, adminEmail: e.target.value })}
-                        />
-                    </div>
-                </div>
-            </motion.div>
-
-            {/* Security Settings */}
-            <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.1 }}
-                className="glass-card p-8 rounded-2xl border border-border bg-black/[0.02] dark:bg-white/[0.02]"
-            >
-                <div className="flex items-center gap-3 mb-6">
-                    <div className="p-3 rounded-xl bg-black/5 dark:bg-white/5">
-                        <Shield className="w-6 h-6 text-muted-foreground/60" />
-                    </div>
-                    <h2 className="text-2xl font-bold">Security & API</h2>
-                </div>
-                <div className="space-y-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label className="block text-sm font-bold mb-2 text-muted-foreground/60">API Rate Limit (requests/hour)</label>
-                            <input
-                                type="number"
-                                className="w-full px-4 py-3 rounded-xl bg-black/5 dark:bg-white/5 border border-border focus:border-primary outline-none transition-all text-foreground"
-                                value={settings.apiRateLimit}
-                                onChange={(e) => setSettings({ ...settings, apiRateLimit: parseInt(e.target.value) })}
-                            />
-                        </div>
-                        <div>
-                            <label className="block text-sm font-bold mb-2 text-muted-foreground/60">Session Timeout (hours)</label>
-                            <input
-                                type="number"
-                                className="w-full px-4 py-3 rounded-xl bg-black/5 dark:bg-white/5 border border-border focus:border-primary outline-none transition-all text-foreground"
-                                value={settings.sessionTimeout}
-                                onChange={(e) => setSettings({ ...settings, sessionTimeout: parseInt(e.target.value) })}
-                            />
-                        </div>
-                    </div>
-                    <div className="p-4 rounded-xl bg-yellow-500/10 border border-yellow-500/20">
-                        <p className="text-sm text-yellow-500 font-bold mb-2">🔐 API Keys</p>
-                        <p className="text-sm text-muted-foreground/60 mb-3">Manage your API keys and access tokens</p>
-                        <button className="px-4 py-2 bg-black/5 dark:bg-white/5 border border-border rounded-lg text-sm font-bold hover:bg-black/10 dark:hover:bg-white/10 transition-colors">
-                            Manage API Keys
-                        </button>
-                    </div>
-                </div>
-            </motion.div>
-
-            {/* Feature Toggles */}
-            <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.2 }}
-                className="glass-card p-8 rounded-2xl border border-border bg-black/[0.02] dark:bg-white/[0.02]"
-            >
-                <div className="flex items-center gap-3 mb-6">
-                    <div className="p-3 rounded-xl bg-black/5 dark:bg-white/5">
-                        <Settings className="w-6 h-6 text-muted-foreground/60" />
-                    </div>
-                    <h2 className="text-2xl font-bold">Feature Toggles</h2>
-                </div>
-                <div className="space-y-4">
-                    {[
-                        {
-                            key: "enableAnalytics",
-                            label: "Enable Analytics",
-                            desc: "Track visitor data and generate insights",
-                            icon: Database
-                        },
-                        {
-                            key: "enableNotifications",
-                            label: "Enable Notifications",
-                            desc: "Send email notifications for important events",
-                            icon: Bell
-                        },
-                        {
-                            key: "maintenanceMode",
-                            label: "Maintenance Mode",
-                            desc: "Put the site in maintenance mode (visitors will see a maintenance page)",
-                            icon: Shield,
-                            warning: true
-                        },
-                    ].map((feature) => (
-                        <div key={feature.key} className={`p-6 rounded-xl border ${feature.warning ? "bg-destructive/10 border-destructive/20" : "bg-black/5 dark:bg-white/5 border-border"
-                            }`}>
-                            <div className="flex items-center justify-between">
-                                <div className="flex items-center gap-4">
-                                    <div className="p-2 rounded-lg bg-black/5 dark:bg-white/5">
-                                        <feature.icon className="w-5 h-5 text-muted-foreground/60" />
-                                    </div>
-                                    <div>
-                                        <p className="font-bold mb-1">{feature.label}</p>
-                                        <p className="text-sm text-muted-foreground/40">{feature.desc}</p>
-                                    </div>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                {/* Protocol Controls */}
+                <div className="lg:col-span-2 space-y-8">
+                    {/* Emergency Kill Switch */}
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        className={`p-10 rounded-[2.5rem] border ${config.lockdownMode ? 'bg-red-500/10 border-red-500/30' : 'bg-black/5 dark:bg-white/5 border-border'} transition-all`}
+                    >
+                        <div className="flex items-center justify-between mb-10">
+                            <div className="flex items-center gap-4">
+                                <div className={`p-4 rounded-2xl ${config.lockdownMode ? 'bg-red-500 text-white' : 'bg-black/10 dark:bg-white/10 text-muted-foreground'}`}>
+                                    <Lock className="w-6 h-6" />
                                 </div>
-                                <label className="relative inline-flex items-center cursor-pointer">
-                                    <input
-                                        type="checkbox"
-                                        className="sr-only peer"
-                                        checked={settings[feature.key as keyof typeof settings] as boolean}
-                                        onChange={(e) => setSettings({ ...settings, [feature.key]: e.target.checked })}
-                                    />
-                                    <div className="w-14 h-7 bg-black/10 dark:bg-white/10 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-primary-foreground after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-foreground after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-primary"></div>
-                                </label>
+                                <div>
+                                    <h3 className="text-lg font-black uppercase tracking-tight">Emergency Lockdown</h3>
+                                    <p className={`text-[10px] font-bold uppercase tracking-widest ${config.lockdownMode ? 'text-red-500' : 'text-muted-foreground/40'}`}>
+                                        {config.lockdownMode ? 'Active Mitigation Protocol' : 'Standby Protocol'}
+                                    </p>
+                                </div>
+                            </div>
+                            <label className="relative inline-flex items-center cursor-pointer">
+                                <input
+                                    type="checkbox"
+                                    className="sr-only peer"
+                                    checked={config.lockdownMode}
+                                    onChange={(e) => setConfig({ ...config, lockdownMode: e.target.checked })}
+                                />
+                                <div className="w-16 h-8 bg-black/10 dark:bg-white/10 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-primary-foreground after:content-[''] after:absolute after:top-1 after:left-[4px] after:bg-foreground after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-red-500"></div>
+                            </label>
+                        </div>
+
+                        <div className="space-y-6">
+                            <div className="space-y-2">
+                                <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/50">Mitigation Message (Maintenance Text)</label>
+                                <textarea
+                                    className="w-full h-24 bg-black/5 dark:bg-white/5 border border-border rounded-2xl px-5 py-4 text-xs font-medium outline-none focus:border-red-500/50 transition-all"
+                                    placeholder="Explain the restriction to users..."
+                                    value={config.maintenanceMessage}
+                                    onChange={(e) => setConfig({ ...config, maintenanceMessage: e.target.value })}
+                                />
                             </div>
                         </div>
-                    ))}
-                </div>
-            </motion.div>
+                    </motion.div>
 
-            {/* Email Settings */}
-            <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.3 }}
-                className="glass-card p-8 rounded-2xl border border-border bg-black/[0.02] dark:bg-white/[0.02]"
-            >
-                <div className="flex items-center gap-3 mb-6">
-                    <div className="p-3 rounded-xl bg-black/5 dark:bg-white/5">
-                        <Mail className="w-6 h-6 text-muted-foreground/60" />
-                    </div>
-                    <h2 className="text-2xl font-bold">Email Configuration</h2>
+                    {/* Global Notifications */}
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        className="glass-card p-10 rounded-[2.5rem] border border-border"
+                    >
+                        <div className="flex items-center gap-4 mb-10">
+                            <div className="p-4 rounded-2xl bg-primary/10 text-primary border border-primary/20">
+                                <Bell className="w-6 h-6" />
+                            </div>
+                            <div>
+                                <h3 className="text-lg font-black uppercase tracking-tight">Global Signal Notice</h3>
+                                <p className="text-[10px] text-muted-foreground/40 font-bold uppercase tracking-widest">Site-wide Announcement Banner</p>
+                            </div>
+                        </div>
+                        <input
+                            type="text"
+                            className="w-full px-6 py-4 rounded-2xl bg-black/5 dark:bg-white/5 border border-border outline-none focus:border-primary transition-all text-xs font-bold"
+                            placeholder="e.g. Critical extension update available. Deploying version 2.4.0..."
+                            value={config.globalNotice}
+                            onChange={(e) => setConfig({ ...config, globalNotice: e.target.value })}
+                        />
+                    </motion.div>
                 </div>
-                <div className="space-y-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label className="block text-sm font-bold mb-2 text-muted-foreground/60">SMTP Host</label>
-                            <input
-                                type="text"
-                                className="w-full px-4 py-3 rounded-xl bg-black/5 dark:bg-white/5 border border-border focus:border-primary outline-none transition-all text-foreground"
-                                placeholder="smtp.example.com"
-                            />
-                        </div>
-                        <div>
-                            <label className="block text-sm font-bold mb-2 text-muted-foreground/60">SMTP Port</label>
-                            <input
-                                type="number"
-                                className="w-full px-4 py-3 rounded-xl bg-black/5 dark:bg-white/5 border border-border focus:border-primary outline-none transition-all text-foreground"
-                                placeholder="587"
-                            />
-                        </div>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label className="block text-sm font-bold mb-2 text-muted-foreground/60">SMTP Username</label>
-                            <input
-                                type="text"
-                                className="w-full px-4 py-3 rounded-xl bg-black/5 dark:bg-white/5 border border-border focus:border-primary outline-none transition-all text-foreground"
-                                placeholder="user@example.com"
-                            />
-                        </div>
-                        <div>
-                            <label className="block text-sm font-bold mb-2 text-muted-foreground/60">SMTP Password</label>
-                            <input
-                                type="password"
-                                className="w-full px-4 py-3 rounded-xl bg-black/5 dark:bg-white/5 border border-border focus:border-primary outline-none transition-all text-foreground"
-                                placeholder="••••••••"
-                            />
-                        </div>
-                    </div>
-                    <button className="px-4 py-2 bg-black/5 dark:bg-white/5 border border-border rounded-lg text-sm font-bold hover:bg-black/10 dark:hover:bg-white/10 transition-colors">
-                        Test Email Configuration
-                    </button>
-                </div>
-            </motion.div>
 
-            {/* User Management */}
-            <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.4 }}
-                className="glass-card p-8 rounded-2xl border border-border bg-black/[0.02] dark:bg-white/[0.02]"
-            >
-                <div className="flex items-center gap-3 mb-6">
-                    <div className="p-3 rounded-xl bg-black/5 dark:bg-white/5">
-                        <Users className="w-6 h-6 text-muted-foreground/60" />
-                    </div>
-                    <h2 className="text-2xl font-bold">User Management</h2>
-                </div>
-                <div className="space-y-4">
-                    <div className="p-4 rounded-xl bg-blue-500/10 border border-blue-500/20">
-                        <p className="text-sm text-blue-400 font-bold mb-2">👥 Admin Users</p>
-                        <p className="text-sm text-muted-foreground/60 mb-3">Manage admin access and permissions</p>
-                        <button className="px-4 py-2 bg-black/5 dark:bg-white/5 border border-border rounded-lg text-sm font-bold hover:bg-black/10 dark:hover:bg-white/10 transition-colors text-foreground">
-                            Manage Admins
+                {/* Audit & Logs Sidecar */}
+                <div className="space-y-8">
+                    <motion.div
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        className="glass-card rounded-[2.5rem] border border-border overflow-hidden flex flex-col h-full"
+                    >
+                        <div className="p-8 border-b border-border bg-black/5 dark:bg-white/5 flex items-center justify-between">
+                            <h3 className="text-[10px] font-black uppercase tracking-[0.2em] flex items-center gap-2">
+                                <Terminal className="w-4 h-4 text-primary" /> Audit Logs
+                            </h3>
+                            <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
+                        </div>
+                        <div className="flex-1 overflow-y-auto p-8 space-y-6 max-h-[600px] custom-scrollbar">
+                            {auditLogs.map((log, i) => (
+                                <div key={log.id} className="relative pl-6 border-l-2 border-border group">
+                                    <div className="absolute left-[-5px] top-0 w-2 h-2 rounded-full bg-border group-hover:bg-primary transition-colors" />
+                                    <p className="text-[9px] font-black text-muted-foreground/30 uppercase tracking-widest mb-1">
+                                        {new Date(log.timestamp).toLocaleTimeString()}
+                                    </p>
+                                    <p className="text-xs font-bold leading-relaxed mb-1">
+                                        <span className="text-primary">{log.adminName}</span> {log.action.toLowerCase().replace('_', ' ')}: {log.targetName}
+                                    </p>
+                                    <p className="text-[10px] text-muted-foreground opacity-50 font-medium italic">{log.details}</p>
+                                </div>
+                            ))}
+                        </div>
+                        <button className="p-6 text-center text-[10px] font-black uppercase tracking-widest text-muted-foreground/40 border-t border-border hover:text-primary transition-colors bg-black/5 dark:bg-white/5">
+                            View Full History
                         </button>
-                    </div>
-                    <div className="p-4 rounded-xl bg-green-500/10 border border-green-500/20">
-                        <p className="text-sm text-green-400 font-bold mb-2">🔑 Invite Codes</p>
-                        <p className="text-sm text-muted-foreground/60 mb-3">Generate invite codes for new users</p>
-                        <button className="px-4 py-2 bg-black/5 dark:bg-white/5 border border-border rounded-lg text-sm font-bold hover:bg-black/10 dark:hover:bg-white/10 transition-colors text-foreground">
-                            Generate Codes
-                        </button>
-                    </div>
+                    </motion.div>
+
+                    <motion.div
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.1 }}
+                        className="p-8 rounded-[2rem] bg-amber-500/10 border border-amber-500/20"
+                    >
+                        <div className="flex gap-4">
+                            <AlertTriangle className="w-6 h-6 text-amber-500 shrink-0" />
+                            <div>
+                                <p className="text-xs font-black uppercase tracking-tight text-amber-500 mb-1">Warning: Core Stability</p>
+                                <p className="text-[10px] text-amber-500/70 font-medium leading-relaxed">
+                                    Changes to system protocols are immediate and affects all connected users. Verify all mitigation messages before commitment.
+                                </p>
+                            </div>
+                        </div>
+                    </motion.div>
                 </div>
-            </motion.div>
+            </div>
         </div>
     );
 }
